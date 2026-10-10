@@ -1,0 +1,61 @@
+/* local font */
+@font-face {
+  font-family: 'Luckiest Guy';
+  src: url('fonts/LuckiestGuy-Regular.ttf') format('truetype');
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: 'Luckiest Guy', sans-serif;
+  color: white;
+  background-color: #0b3c5d;
+}
+
+h1 {
+  margin: 0 0 16px 0;
+  font-size: 48px;
+  letter-spacing: 2px;
+}
+
+canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100vh;
+  background-color: black;
+}
+
+/* hidden by default */
+.rotate-hint {
+  display: none;
+  padding: 16px;
+  font-size: 24px;
+  text-align: center;
+}
+
+/* small landscape screens: hide the title */
+@media (max-height: 820px) {
+  h1 {
+    display: none;
+  }
+}
+
+/* portrait mode: hide the game, show the hint */
+@media (orientation: portrait) and (max-width: 720px) {
+  h1 {
+    display: none;
+  }
+
+  canvas {
+    display: none;
+  }
+
+  .rotate-hint {
+    display: block;
+  }
+}
