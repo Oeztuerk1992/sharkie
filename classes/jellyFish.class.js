@@ -1,6 +1,5 @@
 class JellyFish extends MovableObject {
-  x = 400;
-  y = 200;
+  
   height = 100;
   width = 100;
 
@@ -10,5 +9,6 @@ class JellyFish extends MovableObject {
    */
   constructor() {
     super().loadImage('img/2.Enemy/2 Jelly fish/Regular damage/Yellow 1.png');
+    this.x = Math.random()* 500 + 200;
   }
 }
