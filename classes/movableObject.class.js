@@ -5,6 +5,8 @@ class MovableObject {
   img;
   speed = 0.15;
   otherDirection = false;
+  imageCache = {};
+  currentImage = 0;
 
 
   /**
@@ -41,7 +43,7 @@ class MovableObject {
    * @returns {void}
    */
   moveUp() {
-
+    this.y -= this.speed
   }
 
   /**
@@ -49,6 +51,33 @@ class MovableObject {
    * @returns {void}
    */
   moveDown() {
+    this.y += this.speed
+  }
 
+
+    /**
+   * Loads several images and stores them in the image cache.
+   * @param {string[]} paths - The paths of the images.
+   * @returns {void}
+   */
+  loadImages(paths) {
+    paths.forEach(path => {
+      let img = new Image();
+      img.src = path;
+      this.imageCache[path] = img;
+    });
+  }
+
+
+  /**
+   * Shows the next image of an animation.
+   * @param {string[]} images - The paths of the animation images.
+   * @returns {void}
+   */
+  playAnimation(images) {
+    let index = this.currentImage % images.length;
+    let path = images[index];
+    this.img = this.imageCache[path];
+    this.currentImage++;
   }
 }

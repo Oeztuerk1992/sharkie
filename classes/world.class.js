@@ -22,6 +22,8 @@ class World {
 
   canvas;
   ctx;
+
+  
   /**
    * Creates the game world and starts drawing.
    * @param {HTMLCanvasElement} canvas - The canvas from index.html.
@@ -31,6 +33,7 @@ class World {
     this.canvas = canvas;
     this.draw();
   }
+
 
   /**
    * Draws the background, barriers, enemies and the character again and again.
@@ -51,6 +54,7 @@ class World {
 
   }
 
+
   /**
    * Draws every object of a list on the canvas.
    * @param {MovableObject[]} objects - The objects to draw.
@@ -61,6 +65,7 @@ class World {
       this.addToMap(object);
     });
   }
+
 
   /**
    * Draws one object on the canvas, mirrored if needed.
