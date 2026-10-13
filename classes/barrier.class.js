@@ -1,14 +1,18 @@
 class Barrier extends MovableObject {
-  width = 1121;
-  height = 720;
 
   /**
    * Creates a barrier and loads its image.
+   * @param {string} imagePath - The path to the barrier image.
+   * @param {number} x - The x-coordinate of the barrier.
+   * @param {number} y - The y-coordinate of the barrier.
+   * @param {number} width - The width of the barrier.
+   * @param {number} height - The height of the barrier.
    */
-  constructor() {
-    super().loadImage('img/3. Background/Barrier/1.png');
-    this.x = 0;
-    this.y = 0;
-    
+  constructor(imagePath, x, y, width, height) {
+    super().loadImage(imagePath);
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
   }
 }

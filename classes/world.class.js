@@ -1,8 +1,25 @@
 class World {
   character = new Character();
   enemies = [new PufferFish(), new JellyFish(), new EndBoss()];
-  barriers = [new Barrier()];
-  backgroundObjects = [new BackgroundObject('img/3. Background/Dark/1.png', 0)];
+  barriers = [
+    new Barrier('img/3. Background/Barrier/1.png', 0, 0, 1121, 720),
+    new Barrier('img/3. Background/Barrier/2.png', 1500, 287, 943, 433),
+    new Barrier('img/3. Background/Barrier/3.png', 2700, 116, 294, 604)
+  ];
+  backgroundObjects = [
+    new BackgroundObject('img/3. Background/Layers/5. Water/D1.png', 0),
+    new BackgroundObject('img/3. Background/Layers/4.Fondo 2/D1.png', 0),
+    new BackgroundObject('img/3. Background/Layers/3.Fondo 1/D1.png', 0),
+    new BackgroundObject('img/3. Background/Layers/2. Floor/D1.png', 0),
+    new BackgroundObject('img/3. Background/Layers/1. Light/1.png', 0),
+
+    new BackgroundObject('img/3. Background/Layers/5. Water/D2.png', 1280),
+    new BackgroundObject('img/3. Background/Layers/4.Fondo 2/D2.png', 1280),
+    new BackgroundObject('img/3. Background/Layers/3.Fondo 1/D2.png', 1280),
+    new BackgroundObject('img/3. Background/Layers/2. Floor/D2.png', 1280),
+    new BackgroundObject('img/3. Background/Layers/1. Light/2.png', 1280)
+  ];
+
   canvas;
   ctx;
   /**
