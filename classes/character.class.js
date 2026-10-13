@@ -3,6 +3,8 @@ class Character extends MovableObject {
   y = 60;
   width = 250;
   height = 300;
+  speed = 4;
+  world;
   imagesIdle = [
     'img/1.Sharkie/1.IDLE/1.png',
     'img/1.Sharkie/1.IDLE/2.png',
@@ -31,7 +33,7 @@ class Character extends MovableObject {
     'img/1.Sharkie/3.Swim/5.png',
     'img/1.Sharkie/3.Swim/6.png'
   ];
-
+ 
 
   /**
    * Creates the character and loads its images.
@@ -44,13 +46,71 @@ class Character extends MovableObject {
   }
 
 
-  /**
-   * Plays the idle animation all the time.
+    /**
+   * Starts moving and animating the character.
    * @returns {void}
    */
   animate() {
     setInterval(() => {
-      this.playAnimation(this.imagesIdle);
+      this.moveHorizontal();
+      this.moveVertical();
+    }, 1000 / 60);
+
+    setInterval(() => {
+      this.animateCharacter();
     }, 150);
+  }
+
+
+  /**
+   * Moves the character left or right and turns it in that direction.
+   * @returns {void}
+   */
+  moveHorizontal() {
+    if (this.world.keyboard.right) {
+      this.moveRight();
+      this.otherDirection = false;
+    }
+    if (this.world.keyboard.left) {
+      this.moveLeft();
+      this.otherDirection = true;
+    }
+  }
+
+
+  /**
+   * Moves the character up or down.
+   * @returns {void}
+   */
+  moveVertical() {
+    if (this.world.keyboard.up) {
+      this.moveUp();
+    }
+    if (this.world.keyboard.down) {
+      this.moveDown();
+    }
+  }
+
+
+    /**
+   * Plays the swim animation while swimming, otherwise the idle animation.
+   * @returns {void}
+   */
+  animateCharacter() {
+    if (this.isSwimming()) {
+      this.playAnimation(this.imagesSwimming);
+    } else {
+      this.playAnimation(this.imagesIdle);
+    }
+  }
+
+
+  /**
+   * Checks if any arrow key is pressed.
+   * @returns {boolean} True if the character is swimming.
+   */
+  isSwimming() {
+    let keyboard = this.world.keyboard;
+    return keyboard.left || keyboard.right || keyboard.up || keyboard.down;
   }
 }

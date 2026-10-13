@@ -22,16 +22,29 @@ class World {
 
   canvas;
   ctx;
+  keyboard;
 
-  
+
   /**
    * Creates the game world and starts drawing.
    * @param {HTMLCanvasElement} canvas - The canvas from index.html.
+   * @param {Keyboard} keyboard - The keyboard with the pressed keys.
    */
-  constructor(canvas) {
+  constructor(canvas, keyboard) {
     this.ctx = canvas.getContext('2d');
     this.canvas = canvas;
+    this.keyboard = keyboard; 
+    this.setWorld();
     this.draw();
+  }
+
+
+  /**
+   * Gives the character access to the world, so it can read the keyboard.
+   * @returns {void}
+   */
+  setWorld() {
+    this.character.world = this;
   }
 
 

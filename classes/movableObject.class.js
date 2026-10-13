@@ -75,8 +75,8 @@ class MovableObject {
    * @returns {void}
    */
   playAnimation(images) {
-    let index = this.currentImage % images.length;
-    let path = images[index];
+    let animationSteps = this.currentImage % images.length;
+    let path = images[animationSteps];
     this.img = this.imageCache[path];
     this.currentImage++;
   }
