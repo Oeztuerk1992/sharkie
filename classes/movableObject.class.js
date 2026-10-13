@@ -1,9 +1,10 @@
 class MovableObject {
-  
   y = 250;
   width = 150;
   height = 100;
   img;
+  speed = 0.15;
+  otherDirection = false;
 
 
   /**
@@ -16,21 +17,24 @@ class MovableObject {
     this.img.src = path;
   }
 
-  /**
-   * Moves the object to the right.
-   * @returns {void}
-   */
-  moveRight() {
-    console.log('Moving right');
-  }
 
-  /**
+    /**
    * Moves the object to the left.
    * @returns {void}
    */
   moveLeft() {
-    console.log('Moving left');
+    this.x -= this.speed;
   }
+
+
+  /**
+   * Moves the object to the right.
+   * @returns {void}
+   */
+  moveRight(){
+  this.x += this.speed;
+  }
+
 
   /**
    * Moves the object up.

@@ -63,11 +63,29 @@ class World {
   }
 
   /**
-   * Draws one object on the canvas.
+   * Draws one object on the canvas, mirrored if needed.
    * @param {MovableObject} object - The object to draw.
    * @returns {void}
    */
   addToMap(object) {
-    this.ctx.drawImage(object.img, object.x, object.y, object.width, object.height);
+    if (object.otherDirection) {
+      this.flipImage(object);
+    } else {
+      this.ctx.drawImage(object.img, object.x, object.y, object.width, object.height);
+    }
+  }
+
+
+  /**
+   * Draws an object mirrored, so it looks the other way.
+   * @param {MovableObject} object - The object to draw.
+   * @returns {void}
+   */
+  flipImage(object) {
+    this.ctx.save();
+    this.ctx.translate(object.x + object.width, object.y);
+    this.ctx.scale(-1, 1);
+    this.ctx.drawImage(object.img, 0, 0, object.width, object.height);
+    this.ctx.restore();
   }
 }
