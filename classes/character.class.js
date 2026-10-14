@@ -54,6 +54,7 @@ class Character extends MovableObject {
     setInterval(() => {
       this.moveHorizontal();
       this.moveVertical();
+      this.updateCamera();
     }, 1000 / 60);
 
     setInterval(() => {
@@ -67,11 +68,11 @@ class Character extends MovableObject {
    * @returns {void}
    */
   moveHorizontal() {
-    if (this.world.keyboard.right) {
+    if (this.world.keyboard.right && this.x < this.world.levelEndX - this.width) {
       this.moveRight();
       this.otherDirection = false;
     }
-    if (this.world.keyboard.left) {
+    if (this.world.keyboard.left && this.x > 0) {
       this.moveLeft();
       this.otherDirection = true;
     }
@@ -83,10 +84,10 @@ class Character extends MovableObject {
    * @returns {void}
    */
   moveVertical() {
-    if (this.world.keyboard.up) {
+    if (this.world.keyboard.up && this.y > 0) {
       this.moveUp();
     }
-    if (this.world.keyboard.down) {
+    if (this.world.keyboard.down && this.y < this.world.canvas.height - this.height) {
       this.moveDown();
     }
   }
@@ -112,5 +113,22 @@ class Character extends MovableObject {
   isSwimming() {
     let keyboard = this.world.keyboard;
     return keyboard.left || keyboard.right || keyboard.up || keyboard.down;
+  }
+
+
+  /**
+   * Moves the camera with the character, but not past the start or the end of the level.
+   * @returns {void}
+   */
+  updateCamera() {
+    let cameraX = -this.x + 100;
+    let lastCameraX = -(this.world.levelEndX - this.world.canvas.width);
+    if (cameraX > 0) {
+      cameraX = 0;
+    }
+    if (cameraX < lastCameraX) {
+      cameraX = lastCameraX;
+    }
+    this.world.cameraX = cameraX;
   }
 }
