@@ -68,7 +68,7 @@ class Character extends MovableObject {
    * @returns {void}
    */
   moveHorizontal() {
-    if (this.world.keyboard.right && this.x < this.world.levelEndX - this.width) {
+    if (this.world.keyboard.right && this.x < this.world.level.levelEndX - this.width) {
       this.moveRight();
       this.otherDirection = false;
     }
@@ -122,7 +122,7 @@ class Character extends MovableObject {
    */
   updateCamera() {
     let cameraX = -this.x + 100;
-    let lastCameraX = -(this.world.levelEndX - this.world.canvas.width);
+    let lastCameraX = -(this.world.level.levelEndX - this.world.canvas.width);
     if (cameraX > 0) {
       cameraX = 0;
     }
