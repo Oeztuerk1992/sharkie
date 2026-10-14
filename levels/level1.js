@@ -33,13 +33,16 @@ function createBackgroundObjects() {
 let level1 = new Level(
   [
     new PufferFish(),
-    new JellyFish(),
+    new JellyFish(1950, 'yellow'),
+    new JellyFish(3040, 'green'),
+    new JellyFish(3190, 'pink'),
     new EndBoss()
   ],
   [
-    new Barrier('img/3. Background/Barrier/1.png', 0, 0, 1121, 720),
-    new Barrier('img/3. Background/Barrier/2.png', 1500, 287, 943, 433),
-    new Barrier('img/3. Background/Barrier/3.png', 2700, 116, 294, 604)
+    new Barrier('img/3. Background/Barrier/1-top.png', 800, 0, 840, 197),
+    new Barrier('img/3. Background/Barrier/1-bottom.png', 800, 582, 840, 138),
+    new Barrier('img/3. Background/Barrier/2.png', 2300, 395, 707, 325),
+    new Barrier('img/3. Background/Barrier/3.png', 3330, 297, 206, 423)
   ],
   createBackgroundObjects()
 );

@@ -1,8 +1,8 @@
 class Character extends MovableObject {
-  x = 60;
-  y = 60;
-  width = 250;
-  height = 300;
+  x = 100;
+  y = 300;
+  width = 390;
+  height = 420;
   speed = 4;
   world;
   imagesIdle = [

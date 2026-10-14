@@ -4,23 +4,23 @@ class JellyFish extends MovableObject {
   startY;
   swimRange = 520;
   swimmingUp = true;
-  imagesSwimming = [
-    'img/2.Enemy/2 Jelly fish/Regular damage/Yellow 1.png',
-    'img/2.Enemy/2 Jelly fish/Regular damage/Yellow 2.png',
-    'img/2.Enemy/2 Jelly fish/Regular damage/Yellow 3.png',
-    'img/2.Enemy/2 Jelly fish/Regular damage/Yellow 4.png'
-  ];
+  imagesSwimming;
 
 
   /**
-   * Creates the jelly fish and loads its image.
+   * Creates the jelly fish and loads its images.
+   * @param {number} x - The x-coordinate of the jelly fish.
+   * @param {string} color - 'yellow', 'green' or 'pink'. Green and pink are the dangerous ones with lightning.
    */
-  constructor() {
-    super().loadImage('img/2.Enemy/2 Jelly fish/Regular damage/Yellow 1.png');
+  constructor(x, color) {
+    super();
+    this.imagesSwimming = this.getImages(color);
+    this.loadImage(this.imagesSwimming[0]);
     this.loadImages(this.imagesSwimming);
-    this.x = 1150;
-    this.y = 570;
-    this.startY = this.y;
+    this.x = x;
+    this.startY = 570;
+    this.y = 50 + Math.random() * 520;
+    this.swimmingUp = Math.random() < 0.5;
     this.speed = 0.5 + Math.random() * 1;
     this.animate();
   }
@@ -65,5 +65,25 @@ class JellyFish extends MovableObject {
     if (this.y >= this.startY) {
       this.swimmingUp = true;
     }
+  }
+
+
+  /**
+   * Returns the four animation images for a color.
+   * @param {string} color - 'yellow', 'green' or 'pink'.
+   * @returns {string[]} The paths of the four images.
+   */
+  getImages(color) {
+    let folder = 'img/2.Enemy/2 Jelly fish/Regular damage/';
+    let name = 'Yellow';
+    if (color === 'green') {
+      folder = 'img/2.Enemy/2 Jelly fish/Super dangerous/';
+      name = 'Green';
+    }
+    if (color === 'pink') {
+      folder = 'img/2.Enemy/2 Jelly fish/Super dangerous/';
+      name = 'Pink';
+    }
+    return [folder + name + ' 1.png', folder + name + ' 2.png', folder + name + ' 3.png', folder + name + ' 4.png'];
   }
 }
