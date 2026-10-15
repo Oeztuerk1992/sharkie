@@ -22,11 +22,14 @@ class World {
 
 
   /**
-   * Gives the character access to the world, so it can read the keyboard.
+   * Gives the character and all enemies access to the world.
    * @returns {void}
    */
   setWorld() {
     this.character.world = this;
+    this.level.enemies.forEach(enemy => {
+      enemy.world = this;
+    });
   }
 
 
