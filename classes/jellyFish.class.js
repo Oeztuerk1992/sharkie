@@ -1,6 +1,7 @@
 class JellyFish extends MovableObject {
   width = 100;
   height = 100;
+  offset = { top: 17, left: 1, right: 5, bottom: 10 };
   startY;
   swimRange = 520;
   swimmingUp = true;

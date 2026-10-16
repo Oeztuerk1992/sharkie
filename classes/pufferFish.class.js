@@ -1,6 +1,7 @@
 class PufferFish extends MovableObject {
   width = 120;
   height = 100;
+  offset = { top: 7, left: 4, right: 15, bottom: 27 };
   startX;
   swimRange = 630;
   state = 'swim';

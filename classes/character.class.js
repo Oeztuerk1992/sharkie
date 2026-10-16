@@ -3,7 +3,8 @@ class Character extends MovableObject {
   y = 300;
   width = 390;
   height = 420;
-  speed = 4;
+  speed = 7;
+  offset = { top: 197, left: 79, right: 78, bottom: 103 };
   world;
   imagesIdle = [
     'img/1.Sharkie/1.IDLE/1.png',
@@ -42,18 +43,19 @@ class Character extends MovableObject {
     super().loadImage(this.imagesIdle[0]);
     this.loadImages(this.imagesIdle);
     this.loadImages(this.imagesSwimming);
+    this.applyGravity();
     this.animate();
   }
 
 
-    /**
+  /**
    * Starts moving and animating the character.
    * @returns {void}
    */
   animate() {
     setInterval(() => {
       this.moveHorizontal();
-      this.moveVertical();
+      this.checkJump();
       this.updateCamera();
     }, 1000 / 60);
 
@@ -80,20 +82,18 @@ class Character extends MovableObject {
 
 
   /**
-   * Moves the character up or down.
+   * Lets the character jump once per key press, also again in the air.
    * @returns {void}
    */
-  moveVertical() {
-    if (this.world.keyboard.up && this.y > 0) {
-      this.moveUp();
+  checkJump() {
+    if (this.world.keyboard.jump && this.y > 0) {
+      this.jump();
     }
-    if (this.world.keyboard.down && this.y < this.world.canvas.height - this.height) {
-      this.moveDown();
-    }
+    this.world.keyboard.jump = false;
   }
 
 
-    /**
+  /**
    * Plays the swim animation while swimming, otherwise the idle animation.
    * @returns {void}
    */
@@ -107,12 +107,12 @@ class Character extends MovableObject {
 
 
   /**
-   * Checks if any arrow key is pressed.
+   * Checks if the left or right key is pressed.
    * @returns {boolean} True if the character is swimming.
    */
   isSwimming() {
     let keyboard = this.world.keyboard;
-    return keyboard.left || keyboard.right || keyboard.up || keyboard.down;
+    return keyboard.left || keyboard.right;
   }
 
 

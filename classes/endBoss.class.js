@@ -1,6 +1,7 @@
 class EndBoss extends MovableObject {
   width = 700;
   height = 784;
+  offset = { top: 290, left: 42, right: 52, bottom: 133 };
   world;
   hadFirstContact = false;
   introStep = 0;

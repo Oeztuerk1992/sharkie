@@ -5,6 +5,7 @@ class World {
   ctx;
   keyboard;
   cameraX = 0;
+  showFrames = true;
 
 
   /**
@@ -15,9 +16,25 @@ class World {
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext('2d');
     this.canvas = canvas;
-    this.keyboard = keyboard; 
+    this.keyboard = keyboard;
     this.setWorld();
     this.draw();
+    this.checkCollisions();
+  }
+
+
+  /**
+   * Checks every 200 ms if the character touches an enemy.
+   * @returns {void}
+   */
+  checkCollisions() {
+    setInterval(() => {
+      this.level.enemies.forEach(enemy => {
+        if (this.character.isColliding(enemy)) {
+          this.character.hit();
+        }
+      });
+    }, 200);
   }
 
 
@@ -44,12 +61,12 @@ class World {
     this.addObjectsToMap(this.level.barriers);
     this.addObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
+    this.drawFrames();
     this.ctx.translate(-this.cameraX, 0);
     let self = this;
     requestAnimationFrame(function() {
       self.draw();
     });
-
   }
 
 
@@ -90,5 +107,39 @@ class World {
     this.ctx.scale(-1, 1);
     this.ctx.drawImage(object.img, 0, 0, object.width, object.height);
     this.ctx.restore();
+  }
+
+
+  /**
+   * Draws the hit boxes of the character and the enemies, only for testing.
+   * @returns {void}
+   */
+  drawFrames() {
+    if (!this.showFrames) {
+      return;
+    }
+    this.drawFrame(this.character);
+    this.level.enemies.forEach(enemy => {
+      this.drawFrame(enemy);
+    });
+  }
+
+
+  /**
+   * Draws a red rectangle around the hit box of one object.
+   * @param {MovableObject} object - The object with the hit box.
+   * @returns {void}
+   */
+  drawFrame(object) {
+    this.ctx.beginPath();
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeStyle = 'red';
+    this.ctx.rect(
+      object.x + object.offset.left,
+      object.y + object.offset.top,
+      object.width - object.offset.left - object.offset.right,
+      object.height - object.offset.top - object.offset.bottom
+    );
+    this.ctx.stroke();
   }
 }
