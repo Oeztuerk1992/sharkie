@@ -1,5 +1,6 @@
 class World {
   character = new Character();
+  statusBar = new StatusBar();
   level = level1;
   canvas;
   ctx;
@@ -32,6 +33,7 @@ class World {
       this.level.enemies.forEach(enemy => {
         if (this.character.isColliding(enemy)) {
           this.character.hit();
+          this.statusBar.setPercentage(this.character.energy);
         }
       });
     }, 200);
@@ -63,6 +65,7 @@ class World {
     this.addToMap(this.character);
     this.drawFrames();
     this.ctx.translate(-this.cameraX, 0);
+    this.addToMap(this.statusBar);
     let self = this;
     requestAnimationFrame(function() {
       self.draw();

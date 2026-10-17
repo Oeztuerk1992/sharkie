@@ -1,4 +1,4 @@
-class Barrier extends MovableObject {
+class Barrier extends DrawableObject {
   /**
    * Creates a barrier and loads its image.
    * @param {string} imagePath - The path to the barrier image.

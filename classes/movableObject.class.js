@@ -1,28 +1,13 @@
-class MovableObject {
-  y = 250;
-  width = 150;
-  height = 100;
-  img;
+class MovableObject extends DrawableObject {
   speed = 0.15;
   otherDirection = false;
-  imageCache = {};
   currentImage = 0;
+  lastHit = 0;
   speedY = 0;
   acceleration = 0.8;
   maxFallSpeed = 5;
   offset = { top: 0, left: 0, right: 0, bottom: 0 };
   energy = 100;
-
-
-  /**
-   * Loads an image for this object.
-   * @param {string} path - The path to the image file.
-   * @returns {void}
-   */
-  loadImage(path) {
-    this.img = new Image();
-    this.img.src = path;
-  }
 
 
   /**
@@ -58,20 +43,6 @@ class MovableObject {
    */
   moveDown() {
     this.y += this.speed;
-  }
-
-
-  /**
-   * Loads several images and stores them in the image cache.
-   * @param {string[]} paths - The paths of the images.
-   * @returns {void}
-   */
-  loadImages(paths) {
-    paths.forEach(path => {
-      let img = new Image();
-      img.src = path;
-      this.imageCache[path] = img;
-    });
   }
 
 
@@ -137,14 +108,14 @@ class MovableObject {
 
   /**
    * Checks if this object touches another object. The offsets cut away the empty edges of the images.
-   * @param {MovableObject} object - The other object.
+   * @param {MovableObject} mo - The other movable object.
    * @returns {boolean} True if both objects touch each other.
    */
-  isColliding(object) {
-    return this.x + this.width - this.offset.right > object.x + object.offset.left &&
-      this.x + this.offset.left < object.x + object.width - object.offset.right &&
-      this.y + this.height - this.offset.bottom > object.y + object.offset.top &&
-      this.y + this.offset.top < object.y + object.height - object.offset.bottom;
+  isColliding(mo) {
+    return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+      this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+      this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+      this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
   }
 
 
@@ -156,6 +127,27 @@ class MovableObject {
     this.energy -= 5;
     if (this.energy < 0) {
       this.energy = 0;
+    } else {
+      this.lastHit = new Date().getTime();
     }
+  }
+
+
+  /**
+   * Checks if the object was hit in the last second.
+   * @returns {boolean} True if the object is still hurt.
+   */
+  isHurt() {
+    let timePassed = new Date().getTime() - this.lastHit;
+    return timePassed < 1000;
+  }
+
+
+  /**
+   * Checks if the object has no energy left.
+   * @returns {boolean} True if the object is dead.
+   */
+  isDead() {
+    return this.energy == 0;
   }
 }

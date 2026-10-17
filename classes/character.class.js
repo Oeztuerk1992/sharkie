@@ -34,7 +34,28 @@ class Character extends MovableObject {
     'img/1.Sharkie/3.Swim/5.png',
     'img/1.Sharkie/3.Swim/6.png'
   ];
- 
+  imagesHurt = [
+    'img/1.Sharkie/5.Hurt/1.Poisoned/1.png',
+    'img/1.Sharkie/5.Hurt/1.Poisoned/2.png',
+    'img/1.Sharkie/5.Hurt/1.Poisoned/3.png',
+    'img/1.Sharkie/5.Hurt/1.Poisoned/4.png',
+    'img/1.Sharkie/5.Hurt/1.Poisoned/5.png'
+  ];
+  imagesDead = [
+    'img/1.Sharkie/6.dead/1.Poisoned/1.png',
+    'img/1.Sharkie/6.dead/1.Poisoned/2.png',
+    'img/1.Sharkie/6.dead/1.Poisoned/3.png',
+    'img/1.Sharkie/6.dead/1.Poisoned/4.png',
+    'img/1.Sharkie/6.dead/1.Poisoned/5.png',
+    'img/1.Sharkie/6.dead/1.Poisoned/6.png',
+    'img/1.Sharkie/6.dead/1.Poisoned/7.png',
+    'img/1.Sharkie/6.dead/1.Poisoned/8.png',
+    'img/1.Sharkie/6.dead/1.Poisoned/9.png',
+    'img/1.Sharkie/6.dead/1.Poisoned/10.png',
+    'img/1.Sharkie/6.dead/1.Poisoned/11.png',
+    'img/1.Sharkie/6.dead/1.Poisoned/12.png'
+  ];
+  deadStep = 0;
 
   /**
    * Creates the character and loads its images.
@@ -43,6 +64,8 @@ class Character extends MovableObject {
     super().loadImage(this.imagesIdle[0]);
     this.loadImages(this.imagesIdle);
     this.loadImages(this.imagesSwimming);
+    this.loadImages(this.imagesHurt);
+    this.loadImages(this.imagesDead);
     this.applyGravity();
     this.animate();
   }
@@ -54,8 +77,10 @@ class Character extends MovableObject {
    */
   animate() {
     setInterval(() => {
-      this.moveHorizontal();
-      this.checkJump();
+      if (!this.isDead()) {
+        this.moveHorizontal();
+        this.checkJump();
+      }
       this.updateCamera();
     }, 1000 / 60);
 
@@ -94,11 +119,15 @@ class Character extends MovableObject {
 
 
   /**
-   * Plays the swim animation while swimming, otherwise the idle animation.
+   * Plays the right animation: dead, hurt, swimming or idle.
    * @returns {void}
    */
   animateCharacter() {
-    if (this.isSwimming()) {
+    if (this.isDead()) {
+      this.playDeadAnimation();
+    } else if (this.isHurt()) {
+      this.playAnimation(this.imagesHurt);
+    } else if (this.isSwimming()) {
       this.playAnimation(this.imagesSwimming);
     } else {
       this.playAnimation(this.imagesIdle);
@@ -130,5 +159,17 @@ class Character extends MovableObject {
       cameraX = lastCameraX;
     }
     this.world.cameraX = cameraX;
+  }
+
+
+  /**
+   * Plays the dead animation one time and stays on the last image.
+   * @returns {void}
+   */
+  playDeadAnimation() {
+    if (this.deadStep < this.imagesDead.length) {
+      this.img = this.imageCache[this.imagesDead[this.deadStep]];
+      this.deadStep++;
+    }
   }
 }
