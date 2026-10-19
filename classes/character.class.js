@@ -56,6 +56,8 @@ class Character extends MovableObject {
     'img/1.Sharkie/6.dead/1.Poisoned/12.png'
   ];
   deadStep = 0;
+  coins = 0;
+  poison = 0;
 
   /**
    * Creates the character and loads its images.

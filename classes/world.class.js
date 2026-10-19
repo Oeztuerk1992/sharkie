@@ -1,6 +1,8 @@
 class World {
   character = new Character();
-  statusBar = new StatusBar();
+  lifeBar = new StatusBar('life', 0, 100);
+  coinBar = new StatusBar('coin', 50, 0);
+  poisonBar = new StatusBar('poison', 100, 0);
   level = level1;
   canvas;
   ctx;
@@ -25,18 +27,59 @@ class World {
 
 
   /**
-   * Checks every 200 ms if the character touches an enemy.
+   * Checks every 200 ms if the character touches an enemy, a coin or a poison bottle.
    * @returns {void}
    */
   checkCollisions() {
     setInterval(() => {
-      this.level.enemies.forEach(enemy => {
-        if (this.character.isColliding(enemy)) {
-          this.character.hit();
-          this.statusBar.setPercentage(this.character.energy);
-        }
-      });
+      this.checkEnemyCollisions();
+      this.collectCoins();
+      this.collectPoisonBottles();
     }, 200);
+  }
+
+
+  /**
+   * Hurts the character when it touches an enemy.
+   * @returns {void}
+   */
+  checkEnemyCollisions() {
+    this.level.enemies.forEach(enemy => {
+      if (this.character.isColliding(enemy)) {
+        this.character.hit();
+        this.lifeBar.setPercentage(this.character.energy);
+      }
+    });
+  }
+
+
+  /**
+   * Removes a touched coin from the level and fills the coin bar.
+   * @returns {void}
+   */
+  collectCoins() {
+    this.level.coins.forEach((coin, index) => {
+      if (this.character.isColliding(coin)) {
+        this.level.coins.splice(index, 1);
+        this.character.coins++;
+        this.coinBar.setPercentage(this.character.coins * 10);
+      }
+    });
+  }
+
+
+  /**
+   * Removes a touched poison bottle from the level and fills the poison bar.
+   * @returns {void}
+   */
+  collectPoisonBottles() {
+    this.level.poisonBottles.forEach((bottle, index) => {
+      if (this.character.isColliding(bottle)) {
+        this.level.poisonBottles.splice(index, 1);
+        this.character.poison++;
+        this.poisonBar.setPercentage(this.character.poison * 20);
+      }
+    });
   }
 
 
@@ -53,23 +96,45 @@ class World {
 
 
   /**
-   * Draws the background, barriers, enemies and the character again and again.
+   * Draws the whole game again and again.
    * @returns {void}
    */
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.cameraX, 0);
-    this.addObjectsToMap(this.level.backgroundObjects);
-    this.addObjectsToMap(this.level.barriers);
-    this.addObjectsToMap(this.level.enemies);
-    this.addToMap(this.character);
-    this.drawFrames();
+    this.drawLevelObjects();
     this.ctx.translate(-this.cameraX, 0);
-    this.addToMap(this.statusBar);
+    this.drawStatusBars();
     let self = this;
     requestAnimationFrame(function() {
       self.draw();
     });
+  }
+
+
+  /**
+   * Draws everything that moves with the camera.
+   * @returns {void}
+   */
+  drawLevelObjects() {
+    this.addObjectsToMap(this.level.backgroundObjects);
+    this.addObjectsToMap(this.level.barriers);
+    this.addObjectsToMap(this.level.coins);
+    this.addObjectsToMap(this.level.poisonBottles);
+    this.addObjectsToMap(this.level.enemies);
+    this.addToMap(this.character);
+    this.drawFrames();
+  }
+
+
+  /**
+   * Draws the status bars. They stay in the top left corner.
+   * @returns {void}
+   */
+  drawStatusBars() {
+    this.addToMap(this.lifeBar);
+    this.addToMap(this.coinBar);
+    this.addToMap(this.poisonBar);
   }
 
 

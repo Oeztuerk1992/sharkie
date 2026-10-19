@@ -1,26 +1,49 @@
 class StatusBar extends DrawableObject {
-  imagesLife = [
-    'img/4. Marcadores/green/Life/0_  copia 3.png',
-    'img/4. Marcadores/green/Life/20_ copia 4.png',
-    'img/4. Marcadores/green/Life/40_  copia 3.png',
-    'img/4. Marcadores/green/Life/60_  copia 3.png',
-    'img/4. Marcadores/green/Life/80_  copia 3.png',
-    'img/4. Marcadores/green/Life/100_  copia 2.png'
-  ];
-  percentage = 100;
+  allImages = {
+    life: [
+      'img/4. Marcadores/green/Life/0_  copia 3.png',
+      'img/4. Marcadores/green/Life/20_ copia 4.png',
+      'img/4. Marcadores/green/Life/40_  copia 3.png',
+      'img/4. Marcadores/green/Life/60_  copia 3.png',
+      'img/4. Marcadores/green/Life/80_  copia 3.png',
+      'img/4. Marcadores/green/Life/100_  copia 2.png'
+    ],
+    coin: [
+      'img/4. Marcadores/green/Coin/0_  copia 4.png',
+      'img/4. Marcadores/green/Coin/20_  copia 2.png',
+      'img/4. Marcadores/green/Coin/40_  copia 4.png',
+      'img/4. Marcadores/green/Coin/60_  copia 4.png',
+      'img/4. Marcadores/green/Coin/80_  copia 4.png',
+      'img/4. Marcadores/green/Coin/100_ copia 4.png'
+    ],
+    poison: [
+      'img/4. Marcadores/green/poisoned bubbles/0_ copia 2.png',
+      'img/4. Marcadores/green/poisoned bubbles/20_ copia 3.png',
+      'img/4. Marcadores/green/poisoned bubbles/40_ copia 2.png',
+      'img/4. Marcadores/green/poisoned bubbles/60_ copia 2.png',
+      'img/4. Marcadores/green/poisoned bubbles/80_ copia 2.png',
+      'img/4. Marcadores/green/poisoned bubbles/100_ copia 3.png'
+    ]
+  };
+  images;
+  percentage = 0;
 
 
   /**
-   * Creates the life bar in the top left corner.
+   * Creates a status bar in the top left corner.
+   * @param {string} type - 'life', 'coin' or 'poison'.
+   * @param {number} y - The y-coordinate of the bar.
+   * @param {number} percentage - The start value from 0 to 100.
    */
-  constructor() {
+  constructor(type, y, percentage) {
     super();
-    this.loadImages(this.imagesLife);
+    this.images = this.allImages[type];
+    this.loadImages(this.images);
     this.x = 20;
-    this.y = 0;
-    this.width = 300;
-    this.height = 80;
-    this.setPercentage(100);
+    this.y = y;
+    this.width = 250;
+    this.height = 66;
+    this.setPercentage(percentage);
   }
 
 
@@ -31,14 +54,14 @@ class StatusBar extends DrawableObject {
    */
   setPercentage(percentage) {
     this.percentage = percentage;
-    let path = this.imagesLife[this.getImageIndex()];
+    let path = this.images[this.getImageIndex()];
     this.img = this.imageCache[path];
   }
 
 
   /**
    * Finds the image that fits the current percentage.
-   * @returns {number} The index of the image in imagesLife.
+   * @returns {number} The index of the image in the images list.
    */
   getImageIndex() {
     if (this.percentage == 100) {

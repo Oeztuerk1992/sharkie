@@ -44,5 +44,24 @@ let level1 = new Level(
     new Barrier('img/3. Background/Barrier/2.png', 2300, 395, 707, 325),
     new Barrier('img/3. Background/Barrier/3.png', 3330, 297, 206, 423)
   ],
-  createBackgroundObjects()
+  createBackgroundObjects(),
+  [
+    new Coin(400, 480),
+    new Coin(470, 480),
+    new Coin(540, 480),
+    new Coin(1100, 370),
+    new Coin(1180, 370),
+    new Coin(1260, 370),
+    new Coin(2500, 280),
+    new Coin(2580, 280),
+    new Coin(2660, 280),
+    new Coin(3410, 220)
+  ],
+  [
+    new PoisonBottle(650, 540),
+    new PoisonBottle(1900, 540),
+    new PoisonBottle(2150, 440),
+    new PoisonBottle(3150, 540),
+    new PoisonBottle(3700, 540)
+  ]
 );
