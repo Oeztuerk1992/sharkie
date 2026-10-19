@@ -120,10 +120,13 @@ class MovableObject extends DrawableObject {
 
 
   /**
-   * Takes away energy when the object gets hit.
+   * Takes away energy when the object gets hit, but not again while it is still hurt.
    * @returns {void}
    */
   hit() {
+    if (this.isHurt()) {
+      return;
+    }
     this.energy -= 5;
     if (this.energy < 0) {
       this.energy = 0;
