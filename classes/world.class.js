@@ -3,6 +3,7 @@ class World {
   lifeBar = new StatusBar('life', 0, 100);
   coinBar = new StatusBar('coin', 50, 0);
   poisonBar = new StatusBar('poison', 100, 0);
+  throwableObjects = [];
   level = level1;
   canvas;
   ctx;
@@ -27,7 +28,7 @@ class World {
 
 
   /**
-   * Checks every 200 ms if the character touches an enemy, a coin or a poison bottle.
+   * Checks if the character touches an enemy, a coin or a poison bottle, and if a bubble hits an enemy.
    * @returns {void}
    */
   checkCollisions() {
@@ -36,6 +37,10 @@ class World {
       this.collectCoins();
       this.collectPoisonBottles();
     }, 200);
+    setInterval(() => {
+      this.checkBubbleHits();
+      this.removeFarBubbles();
+    }, 1000 / 60);
   }
 
 
@@ -45,7 +50,7 @@ class World {
    */
   checkEnemyCollisions() {
     this.level.enemies.forEach(enemy => {
-      if (this.character.isColliding(enemy)) {
+      if (!enemy.isDead() && this.character.isColliding(enemy)) {
         this.character.hit();
         this.lifeBar.setPercentage(this.character.energy);
       }
@@ -123,6 +128,7 @@ class World {
     this.addObjectsToMap(this.level.poisonBottles);
     this.addObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
+    this.addObjectsToMap(this.throwableObjects);
     this.drawFrames();
   }
 
@@ -209,5 +215,63 @@ class World {
       object.height - object.offset.top - object.offset.bottom
     );
     this.ctx.stroke();
+  }
+
+
+  /**
+   * Creates a new bubble in front of Sharkie's mouth.
+   * @param {boolean} isPoisoned - True for a poison bubble, which uses one poison bottle.
+   * @returns {void}
+   */
+  shootBubble(isPoisoned) {
+    let x = this.character.x + this.character.width - this.character.offset.right;
+    if (this.character.otherDirection) {
+      x = this.character.x + this.character.offset.left - 60;
+    }
+    let bubble = new ThrowableObject(x, this.character.y + 230, this.character.otherDirection, isPoisoned);
+    this.throwableObjects.push(bubble);
+    if (isPoisoned) {
+      this.character.poison--;
+      this.poisonBar.setPercentage(this.character.poison * 20);
+    }
+  }
+
+
+  /**
+   * Checks if a bubble hits a living enemy. The bubble disappears after a hit.
+   * @returns {void}
+   */
+  checkBubbleHits() {
+    this.throwableObjects.forEach((bubble, bubbleIndex) => {
+      let enemy = this.level.enemies.find(enemy => !enemy.isDead() && bubble.isColliding(enemy));
+      if (enemy) {
+        enemy.hitByBubble(bubble);
+        this.removeBubble(bubbleIndex);
+      }
+    });
+  }
+
+
+  /**
+   * Removes all bubbles that have flown too far.
+   * @returns {void}
+   */
+  removeFarBubbles() {
+    this.throwableObjects.forEach((bubble, bubbleIndex) => {
+      if (bubble.isFarAway()) {
+        this.removeBubble(bubbleIndex);
+      }
+    });
+  }
+
+
+  /**
+   * Stops a bubble and removes it from the world.
+   * @param {number} bubbleIndex - The position of the bubble in the list.
+   * @returns {void}
+   */
+  removeBubble(bubbleIndex) {
+    this.throwableObjects[bubbleIndex].stop();
+    this.throwableObjects.splice(bubbleIndex, 1);
   }
 }

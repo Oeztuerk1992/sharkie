@@ -7,6 +7,7 @@ class PufferFish extends MovableObject {
   state = 'swim';
   transitionStep = 0;
   inflateOffset = 10;
+  imageDead = 'img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/1.Dead 1 (can animate by going up).png';
   imagesSwimming = [
     'img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/1.swim1.png',
     'img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/1.swim2.png',
@@ -39,6 +40,7 @@ class PufferFish extends MovableObject {
     this.loadImages(this.imagesSwimming);
     this.loadImages(this.imagesInflating);
     this.loadImages(this.imagesInflated);
+    this.loadImages([this.imageDead]);
     this.x = 1500;
     this.y = 340;
     this.startX = this.x;
@@ -53,7 +55,11 @@ class PufferFish extends MovableObject {
    */
   animate() {
     setInterval(() => this.swim(), 1000 / 60);
-    setInterval(() => this.animateImages(), 150);
+    setInterval(() => {
+      if (!this.isDead()) {
+        this.animateImages();
+      }
+    }, 150);
     setInterval(() => this.changeState(), 3000);
   }
 
@@ -63,6 +69,10 @@ class PufferFish extends MovableObject {
    * @returns {void}
    */
   swim() {
+    if (this.isDead()) {
+      this.floatUp();
+      return;
+    }
     if (this.otherDirection) {
       this.moveRight();
     } else {
@@ -143,5 +153,15 @@ class PufferFish extends MovableObject {
     if (nextState === 'swim') {
       this.y += this.inflateOffset;
     }
+  }
+
+
+  /**
+   * Shows the dead image and lets the puffer fish float up, trapped in the bubble.
+   * @returns {void}
+   */
+  floatUp() {
+    this.img = this.imageCache[this.imageDead];
+    this.y -= 3;
   }
 }

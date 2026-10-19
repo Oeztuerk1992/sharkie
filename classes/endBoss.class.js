@@ -91,4 +91,13 @@ class EndBoss extends MovableObject {
     this.img = this.imageCache[this.imagesIntroduce[this.introStep]];
     this.introStep++;
   }
+
+
+  /**
+   * The end boss does not die from one bubble. The boss fight comes later.
+   * @param {ThrowableObject} bubble - The bubble that hit the end boss.
+   * @returns {void}
+   */
+  hitByBubble(bubble) {
+  }
 }

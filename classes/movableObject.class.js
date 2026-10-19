@@ -153,4 +153,14 @@ class MovableObject extends DrawableObject {
   isDead() {
     return this.energy == 0;
   }
+
+
+  /**
+   * What happens when a bubble hits this object. Normal enemies die at once.
+   * @param {ThrowableObject} bubble - The bubble that hit the object.
+   * @returns {void}
+   */
+  hitByBubble(bubble) {
+    this.energy = 0;
+  }
 }

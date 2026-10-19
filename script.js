@@ -30,6 +30,18 @@ window.addEventListener('keyup', (event) => {
  * @returns {void}
  */
 function setKey(code, isPressed) {
+  setMoveKey(code, isPressed);
+  setAttackKey(code, isPressed);
+}
+
+
+/**
+ * Saves the keys for swimming left, right and jumping.
+ * @param {string} code - The code of the key.
+ * @param {boolean} isPressed - True if pressed, false if released.
+ * @returns {void}
+ */
+function setMoveKey(code, isPressed) {
   if (code === 'ArrowLeft') {
     keyboard.left = isPressed;
   }
@@ -38,5 +50,22 @@ function setKey(code, isPressed) {
   }
   if (code === 'Space' || code === 'ArrowUp') {
     keyboard.jump = isPressed;
+  }
+}
+
+
+/**
+ * Saves the keys for the bubble attack (D) and the poison bubble attack (F).
+ * @param {string} code - The code of the key.
+ * @param {boolean} isPressed - True if pressed, false if released.
+ * @returns {void}
+ */
+function setAttackKey(code, isPressed) {
+  if (code === 'KeyD') {
+    keyboard.shoot = isPressed;
+    console.log(code)
+  }
+  if (code === 'KeyF') {
+    keyboard.shootPoison = isPressed;
   }
 }

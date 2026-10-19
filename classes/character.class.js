@@ -58,6 +58,29 @@ class Character extends MovableObject {
   deadStep = 0;
   coins = 0;
   poison = 0;
+  imagesAttack = [
+    'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/1.png',
+    'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/2.png',
+    'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/3.png',
+    'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/4.png',
+    'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/5.png',
+    'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/6.png',
+    'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/7.png',
+    'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/8.png'
+  ];
+  imagesPoisonAttack = [
+    'img/1.Sharkie/4.Attack/Bubble trap/For Whale/1.png',
+    'img/1.Sharkie/4.Attack/Bubble trap/For Whale/2.png',
+    'img/1.Sharkie/4.Attack/Bubble trap/For Whale/3.png',
+    'img/1.Sharkie/4.Attack/Bubble trap/For Whale/4.png',
+    'img/1.Sharkie/4.Attack/Bubble trap/For Whale/5.png',
+    'img/1.Sharkie/4.Attack/Bubble trap/For Whale/6.png',
+    'img/1.Sharkie/4.Attack/Bubble trap/For Whale/7.png',
+    'img/1.Sharkie/4.Attack/Bubble trap/For Whale/8.png'
+  ];
+  isAttacking = false;
+  isPoisonAttack = false;
+  attackStep = 0;
 
   /**
    * Creates the character and loads its images.
@@ -68,6 +91,8 @@ class Character extends MovableObject {
     this.loadImages(this.imagesSwimming);
     this.loadImages(this.imagesHurt);
     this.loadImages(this.imagesDead);
+    this.loadImages(this.imagesAttack);
+    this.loadImages(this.imagesPoisonAttack);
     this.applyGravity();
     this.animate();
   }
@@ -82,6 +107,7 @@ class Character extends MovableObject {
       if (!this.isDead()) {
         this.moveHorizontal();
         this.checkJump();
+        this.checkShoot();
       }
       this.updateCamera();
     }, 1000 / 60);
@@ -121,7 +147,7 @@ class Character extends MovableObject {
 
 
   /**
-   * Plays the right animation: dead, hurt, swimming or idle.
+   * Plays the right animation: dead, hurt, attack, swimming or idle.
    * @returns {void}
    */
   animateCharacter() {
@@ -129,6 +155,8 @@ class Character extends MovableObject {
       this.playDeadAnimation();
     } else if (this.isHurt()) {
       this.playAnimation(this.imagesHurt);
+    } else if (this.isAttacking) {
+      this.playAttackAnimation();
     } else if (this.isSwimming()) {
       this.playAnimation(this.imagesSwimming);
     } else {
@@ -172,6 +200,55 @@ class Character extends MovableObject {
     if (this.deadStep < this.imagesDead.length) {
       this.img = this.imageCache[this.imagesDead[this.deadStep]];
       this.deadStep++;
+    }
+  }
+
+
+  /**
+   * Starts a bubble attack with D, or a poison bubble attack with F if Sharkie has poison.
+   * @returns {void}
+   */
+  checkShoot() {
+    if (this.world.keyboard.shoot) {
+      this.startAttack(false);
+    }
+    if (this.world.keyboard.shootPoison && this.poison > 0) {
+      this.startAttack(true);
+    }
+    this.world.keyboard.shoot = false;
+    this.world.keyboard.shootPoison = false;
+  }
+
+
+  /**
+   * Starts the attack animation, but only if no attack is running.
+   * @param {boolean} isPoisoned - True for a poison bubble.
+   * @returns {void}
+   */
+  startAttack(isPoisoned) {
+    if (this.isAttacking) {
+      return;
+    }
+    this.isAttacking = true;
+    this.isPoisonAttack = isPoisoned;
+    this.attackStep = 0;
+  }
+
+
+  /**
+   * Shows the next attack image. After the last image the bubble is shot.
+   * @returns {void}
+   */
+  playAttackAnimation() {
+    let images = this.imagesAttack;
+    if (this.isPoisonAttack) {
+      images = this.imagesPoisonAttack;
+    }
+    this.img = this.imageCache[images[this.attackStep]];
+    this.attackStep++;
+    if (this.attackStep >= images.length) {
+      this.isAttacking = false;
+      this.world.shootBubble(this.isPoisonAttack);
     }
   }
 }
