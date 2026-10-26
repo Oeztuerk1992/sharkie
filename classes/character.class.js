@@ -81,6 +81,24 @@ class Character extends MovableObject {
   isAttacking = false;
   isPoisonAttack = false;
   attackStep = 0;
+  imagesLongIdle = [
+    'img/1.Sharkie/2.Long_IDLE/i1.png',
+    'img/1.Sharkie/2.Long_IDLE/I2.png',
+    'img/1.Sharkie/2.Long_IDLE/I3.png',
+    'img/1.Sharkie/2.Long_IDLE/I4.png',
+    'img/1.Sharkie/2.Long_IDLE/I5.png',
+    'img/1.Sharkie/2.Long_IDLE/I6.png',
+    'img/1.Sharkie/2.Long_IDLE/I7.png',
+    'img/1.Sharkie/2.Long_IDLE/I8.png',
+    'img/1.Sharkie/2.Long_IDLE/I9.png',
+    'img/1.Sharkie/2.Long_IDLE/I10.png',
+    'img/1.Sharkie/2.Long_IDLE/I11.png',
+    'img/1.Sharkie/2.Long_IDLE/I12.png',
+    'img/1.Sharkie/2.Long_IDLE/I13.png',
+    'img/1.Sharkie/2.Long_IDLE/I14.png'
+  ];
+  lastActivity = new Date().getTime();
+  sleepStep = 0;
 
   /**
    * Creates the character and loads its images.
@@ -92,6 +110,7 @@ class Character extends MovableObject {
     this.loadImages(this.imagesHurt);
     this.loadImages(this.imagesDead);
     this.loadImages(this.imagesAttack);
+    this.loadImages(this.imagesLongIdle);
     this.loadImages(this.imagesPoisonAttack);
     this.applyGravity();
     this.animate();
@@ -105,6 +124,7 @@ class Character extends MovableObject {
   animate() {
     setInterval(() => {
       if (!this.isDead()) {
+        this.checkActivity();
         this.moveHorizontal();
         this.checkJump();
         this.checkShoot();
@@ -147,7 +167,7 @@ class Character extends MovableObject {
 
 
   /**
-   * Plays the right animation: dead, attack, hurt, swimming or idle.
+   * Plays the right animation: dead, attack, hurt, swimming, sleeping or idle.
    * @returns {void}
    */
   animateCharacter() {
@@ -159,6 +179,8 @@ class Character extends MovableObject {
       this.playAnimation(this.imagesHurt);
     } else if (this.isSwimming()) {
       this.playAnimation(this.imagesSwimming);
+    } else if (this.isSleeping()) {
+      this.playSleepAnimation();
     } else {
       this.playAnimation(this.imagesIdle);
     }
@@ -249,6 +271,42 @@ class Character extends MovableObject {
     if (this.attackStep >= images.length) {
       this.isAttacking = false;
       this.world.shootBubble(this.isPoisonAttack);
+    }
+  }
+
+
+  /**
+   * Remembers the time of the last key press and wakes Sharkie up.
+   * @returns {void}
+   */
+  checkActivity() {
+    let keyboard = this.world.keyboard;
+    if (keyboard.left || keyboard.right || keyboard.jump || keyboard.shoot || keyboard.shootPoison) {
+      this.lastActivity = new Date().getTime();
+      this.sleepStep = 0;
+    }
+  }
+
+
+  /**
+   * Checks if no key was pressed for 10 seconds.
+   * @returns {boolean} True if Sharkie falls asleep.
+   */
+  isSleeping() {
+    let timePassed = new Date().getTime() - this.lastActivity;
+    return timePassed > 10000;
+  }
+
+
+  /**
+   * Plays the falling asleep images once and then repeats the last four sleeping images.
+   * @returns {void}
+   */
+  playSleepAnimation() {
+    this.img = this.imageCache[this.imagesLongIdle[this.sleepStep]];
+    this.sleepStep++;
+    if (this.sleepStep >= this.imagesLongIdle.length) {
+      this.sleepStep = 10;
     }
   }
 }
