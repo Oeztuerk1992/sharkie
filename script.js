@@ -63,7 +63,6 @@ function setMoveKey(code, isPressed) {
 function setAttackKey(code, isPressed) {
   if (code === 'KeyD') {
     keyboard.shoot = isPressed;
-    console.log(code)
   }
   if (code === 'KeyF') {
     keyboard.shootPoison = isPressed;

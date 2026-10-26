@@ -8,6 +8,7 @@ class MovableObject extends DrawableObject {
   maxFallSpeed = 5;
   offset = { top: 0, left: 0, right: 0, bottom: 0 };
   energy = 100;
+  damage = 5;
 
 
   /**
@@ -121,13 +122,14 @@ class MovableObject extends DrawableObject {
 
   /**
    * Takes away energy when the object gets hit, but not again while it is still hurt.
+   * @param {number} damage - How much energy the object loses.
    * @returns {void}
    */
-  hit() {
+  hit(damage) {
     if (this.isHurt()) {
       return;
     }
-    this.energy -= 5;
+    this.energy -= damage;
     if (this.energy < 0) {
       this.energy = 0;
     } else {

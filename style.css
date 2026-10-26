@@ -25,9 +25,22 @@ h1 {
 
 canvas {
   display: block;
-  max-width: 100%;
-  max-height: 100vh;
+  object-fit: contain;
   background-color: black;
+}
+
+/* Smartphones and small screens: canvas as wide as the screen */
+@media only screen and (max-width: 1280px) {
+  canvas {
+    width: 100%;
+  }
+}
+
+/* Smartphones in landscape: canvas as high as the screen */
+@media only screen and (max-height: 720px) {
+  canvas {
+    height: 100vh;
+  }
 }
 
 /* hidden by default */
@@ -45,8 +58,8 @@ canvas {
   }
 }
 
-/* portrait mode: hide the game, show the hint */
-@media (orientation: portrait) and (max-width: 720px) {
+/* portrait mode on phones and tablets: hide the game, show the hint */
+@media (orientation: portrait) and (max-width: 720px), (orientation: portrait) and (pointer: coarse) {
   h1 {
     display: none;
   }

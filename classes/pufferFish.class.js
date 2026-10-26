@@ -2,6 +2,8 @@ class PufferFish extends MovableObject {
   width = 120;
   height = 100;
   offset = { top: 7, left: 4, right: 15, bottom: 27 };
+  offsetSmall = { top: 7, left: 4, right: 15, bottom: 27 };
+  offsetInflated = { top: 0, left: 4, right: 10, bottom: 0 };
   startX;
   swimRange = 630;
   state = 'swim';
@@ -126,6 +128,7 @@ class PufferFish extends MovableObject {
       this.transitionStep = 0;
       this.state = nextState;
       this.moveBackDown(nextState);
+      this.updateOffset(nextState);
     }
   }
 
@@ -163,5 +166,20 @@ class PufferFish extends MovableObject {
   floatUp() {
     this.img = this.imageCache[this.imageDead];
     this.y -= 3;
+  }
+
+
+  /**
+   * Makes the hit box bigger when the puffer fish is inflated and smaller again when it swims normally.
+   * @param {string} nextState - The state the puffer fish just switched to.
+   * @returns {void}
+   */
+  updateOffset(nextState) {
+    if (nextState === 'inflated') {
+      this.offset = this.offsetInflated;
+    }
+    if (nextState === 'swim') {
+      this.offset = this.offsetSmall;
+    }
   }
 }

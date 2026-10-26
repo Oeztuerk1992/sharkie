@@ -147,16 +147,16 @@ class Character extends MovableObject {
 
 
   /**
-   * Plays the right animation: dead, hurt, attack, swimming or idle.
+   * Plays the right animation: dead, attack, hurt, swimming or idle.
    * @returns {void}
    */
   animateCharacter() {
     if (this.isDead()) {
       this.playDeadAnimation();
-    } else if (this.isHurt()) {
-      this.playAnimation(this.imagesHurt);
     } else if (this.isAttacking) {
       this.playAttackAnimation();
+    } else if (this.isHurt()) {
+      this.playAnimation(this.imagesHurt);
     } else if (this.isSwimming()) {
       this.playAnimation(this.imagesSwimming);
     } else {
