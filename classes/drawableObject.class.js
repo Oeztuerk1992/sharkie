@@ -1,4 +1,5 @@
 class DrawableObject {
+  static allImages = {};
   x = 0;
   y = 0;
   width = 100;
@@ -8,13 +9,27 @@ class DrawableObject {
 
 
   /**
+   * Returns the image for a path. Every image is loaded only once and then shared by all objects.
+   * @param {string} path - The path to the image file.
+   * @returns {HTMLImageElement} The image.
+   */
+  getImage(path) {
+    if (!DrawableObject.allImages[path]) {
+      let img = new Image();
+      img.src = path;
+      DrawableObject.allImages[path] = img;
+    }
+    return DrawableObject.allImages[path];
+  }
+
+
+  /**
    * Loads an image for this object.
    * @param {string} path - The path to the image file.
    * @returns {void}
    */
   loadImage(path) {
-    this.img = new Image();
-    this.img.src = path;
+    this.img = this.getImage(path);
   }
 
 
@@ -25,9 +40,7 @@ class DrawableObject {
    */
   loadImages(paths) {
     paths.forEach(path => {
-      let img = new Image();
-      img.src = path;
-      this.imageCache[path] = img;
+      this.imageCache[path] = this.getImage(path);
     });
   }
 }

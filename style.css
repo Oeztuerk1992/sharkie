@@ -43,6 +43,158 @@ canvas {
   }
 }
 
+.d-none {
+  display: none !important;
+}
+
+/* start screen */
+.start-screen,
+.end-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2vh;
+  text-align: center;
+}
+
+.start-screen {
+  background-image: url('img/3. Background/Dark/1.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.start-title {
+  margin: 0;
+  font-size: clamp(48px, 14vh, 140px);
+  font-weight: normal;
+  color: #fbe51e;
+  text-shadow: 4px 4px 0 #4e1580;
+}
+
+.start-story {
+  margin: 0;
+  max-width: 600px;
+  padding: 0 16px;
+  font-family: Arial, sans-serif;
+  font-size: clamp(14px, 2.5vh, 20px);
+}
+
+.image-button {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.image-button img {
+  height: clamp(48px, 12vh, 100px);
+}
+
+.image-button:hover {
+  transform: scale(1.05);
+}
+
+.image-button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.text-button {
+  padding: 8px 24px;
+  border: 3px solid white;
+  border-radius: 16px;
+  background-color: #4e1580;
+  color: white;
+  font-family: 'Luckiest Guy', sans-serif;
+  font-size: clamp(16px, 3.5vh, 26px);
+  cursor: pointer;
+}
+
+.text-button:hover {
+  background-color: #bd0a7c;
+}
+
+.legal-link {
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* dialog with the game explanation */
+.instructions {
+  width: min(600px, 90vw);
+  max-height: 90vh;
+  padding: 0;
+  border: 3px solid white;
+  border-radius: 24px;
+  background-color: #5c5c80;
+  color: white;
+}
+
+.instructions::backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.instructions-content {
+  position: relative;
+  padding: 24px;
+  font-family: Arial, sans-serif;
+}
+
+.instructions-content h2 {
+  margin-top: 0;
+  font-family: 'Luckiest Guy', sans-serif;
+  font-weight: normal;
+}
+
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background-color: #7fffd4;
+  color: #4e1580;
+  font-family: 'Luckiest Guy', sans-serif;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.keys td {
+  padding: 6px 12px 6px 0;
+}
+
+.key {
+  color: #7fffd4;
+  font-family: 'Luckiest Guy', sans-serif;
+  white-space: nowrap;
+}
+
+/* end screen */
+.end-screen {
+  background-color: rgba(11, 1, 61, 0.75);
+}
+
+.end-title {
+  width: min(700px, 80vw);
+  max-height: 25vh;
+  object-fit: contain;
+}
+
+.end-buttons {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 24px;
+}
+
 /* hidden by default */
 .rotate-hint {
   display: none;
@@ -64,7 +216,9 @@ canvas {
     display: none;
   }
 
-  canvas {
+  canvas,
+  .start-screen,
+  .end-screen {
     display: none;
   }
 

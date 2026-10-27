@@ -30,25 +30,56 @@ function createBackgroundObjects() {
 }
 
 
-let level1 = new Level(
-  [
+let level1;
+
+
+/**
+ * Creates level 1 with fresh objects. Called every time a game starts.
+ * @returns {void}
+ */
+function initLevel() {
+  level1 = new Level(createEnemies(), createBarriers(), createBackgroundObjects(), createCoins(), createPoisonBottles());
+}
+
+
+/**
+ * Creates all enemies of level 1.
+ * @returns {MovableObject[]} The enemies.
+ */
+function createEnemies() {
+  return [
     new PufferFish(),
     new JellyFish(1950, 'yellow'),
     new JellyFish(3040, 'green'),
     new JellyFish(3190, 'pink'),
     new EndBoss()
-  ],
-  [
+  ];
+}
+
+
+/**
+ * Creates all barriers of level 1.
+ * @returns {Barrier[]} The barriers.
+ */
+function createBarriers() {
+  return [
     new Barrier('img/3. Background/Barrier/1-top.png', 800, 0, 840, 197),
     new Barrier('img/3. Background/Barrier/1-bottom.png', 800, 582, 840, 138),
     new Barrier('img/3. Background/Barrier/2.png', 2300, 395, 707, 325),
     new Barrier('img/3. Background/Barrier/3.png', 3330, 297, 206, 423)
-  ],
-  createBackgroundObjects(),
-  [
-    new Coin(400, 480),
-    new Coin(470, 480),
-    new Coin(540, 480),
+  ];
+}
+
+
+/**
+ * Creates all coins of level 1.
+ * @returns {Coin[]} The coins.
+ */
+function createCoins() {
+  return [
+    new Coin(520, 480),
+    new Coin(590, 480),
+    new Coin(660, 480),
     new Coin(1100, 370),
     new Coin(1180, 370),
     new Coin(1260, 370),
@@ -56,12 +87,20 @@ let level1 = new Level(
     new Coin(2580, 280),
     new Coin(2660, 280),
     new Coin(3410, 220)
-  ],
-  [
-    new PoisonBottle(650, 540),
+  ];
+}
+
+
+/**
+ * Creates all poison bottles of level 1.
+ * @returns {PoisonBottle[]} The poison bottles.
+ */
+function createPoisonBottles() {
+  return [
+    new PoisonBottle(740, 540),
     new PoisonBottle(1900, 540),
     new PoisonBottle(2150, 440),
     new PoisonBottle(3150, 540),
     new PoisonBottle(3700, 540)
-  ]
-);
+  ];
+}

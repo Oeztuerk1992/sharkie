@@ -4,6 +4,8 @@ class World {
   coinBar = new StatusBar('coin', 50, 0);
   poisonBar = new StatusBar('poison', 100, 0);
   throwableObjects = [];
+  animationFrameId;
+  isGameOver = false;
   level = level1;
   canvas;
   ctx;
@@ -36,6 +38,7 @@ class World {
       this.checkEnemyCollisions();
       this.collectCoins();
       this.collectPoisonBottles();
+      this.checkGameOver();
     }, 200);
     setInterval(() => {
       this.checkBubbleHits();
@@ -111,7 +114,7 @@ class World {
     this.ctx.translate(-this.cameraX, 0);
     this.drawStatusBars();
     let self = this;
-    requestAnimationFrame(function() {
+    this.animationFrameId = requestAnimationFrame(function() {
       self.draw();
     });
   }
@@ -273,5 +276,44 @@ class World {
   removeBubble(bubbleIndex) {
     this.throwableObjects[bubbleIndex].stop();
     this.throwableObjects.splice(bubbleIndex, 1);
+  }
+
+
+  /**
+   * Ends the game when Sharkie or the end boss is dead.
+   * @returns {void}
+   */
+  checkGameOver() {
+    if (this.isGameOver) {
+      return;
+    }
+    if (this.character.isDead()) {
+      this.endGame(false);
+    }
+    if (this.getEndBoss().isDead()) {
+      this.endGame(true);
+    }
+  }
+
+
+  /**
+   * Finds the end boss in the list of enemies.
+   * @returns {EndBoss} The end boss of the level.
+   */
+  getEndBoss() {
+    return this.level.enemies.find(enemy => enemy instanceof EndBoss);
+  }
+
+
+  /**
+   * Waits until the dead animation is over and then shows the end screen.
+   * @param {boolean} isWon - True if the player won the game.
+   * @returns {void}
+   */
+  endGame(isWon) {
+    this.isGameOver = true;
+    setTimeout(() => {
+      showEndScreen(isWon);
+    }, 2500);
   }
 }
