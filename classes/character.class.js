@@ -254,6 +254,7 @@ class Character extends MovableObject {
     this.isAttacking = true;
     this.isPoisonAttack = isPoisoned;
     this.attackStep = 0;
+    playSound(bubbleSound);
   }
 
 

@@ -2,6 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let backgroundMusic = new Audio('sounds/background.mp3');
+let bubbleSound = new Audio('sounds/bubble.mp3');
 let isMuted = false;
 
 
@@ -11,7 +12,9 @@ let isMuted = false;
  */
 function init() {
   canvas = document.getElementById('canvas');
+  prepareSounds();
   loadMuteState();
+  initTouchButtons();
   preloadImages();
 }
 
@@ -185,37 +188,61 @@ function setMoveKey(code, isPressed) {
   if (code === 'ArrowRight') {
     keyboard.right = isPressed;
   }
-  if (code === 'Space' || code === 'ArrowUp') {
-    keyboard.jump = isPressed;
+  if ((code === 'Space' || code === 'ArrowUp') && isPressed) {
+    keyboard.jump = true;
   }
 }
 
 
 /**
  * Saves the keys for the bubble attack (D) and the poison bubble attack (F).
+ * Jump and attack keys are only set to true. Sharkie sets them back to false after he used them.
  * @param {string} code - The code of the key.
  * @param {boolean} isPressed - True if pressed, false if released.
  * @returns {void}
  */
 function setAttackKey(code, isPressed) {
-  if (code === 'KeyD') {
-    keyboard.shoot = isPressed;
+  if (code === 'KeyD' && isPressed) {
+    keyboard.shoot = true;
   }
-  if (code === 'KeyF') {
-    keyboard.shootPoison = isPressed;
+  if (code === 'KeyF' && isPressed) {
+    keyboard.shootPoison = true;
   }
 }
 
 
 /**
- * Reads from the local storage if the sound was muted last time and prepares the music.
+ * Sets the volume of all sounds and lets the music repeat.
+ * @returns {void}
+ */
+function prepareSounds() {
+  backgroundMusic.loop = true;
+  backgroundMusic.volume = 0.25;
+  bubbleSound.volume = 0.4;
+}
+
+
+/**
+ * Reads from the local storage if the sound was muted last time.
  * @returns {void}
  */
 function loadMuteState() {
   isMuted = localStorage.getItem('sharkieMuted') === 'true';
-  backgroundMusic.loop = true;
-  backgroundMusic.volume = 0.25;
   updateMuteButton();
+}
+
+
+/**
+ * Plays a sound effect from the beginning, but only if the sound is not muted.
+ * @param {HTMLAudioElement} sound - The sound to play, for example bubbleSound.
+ * @returns {void}
+ */
+function playSound(sound) {
+  if (isMuted) {
+    return;
+  }
+  sound.currentTime = 0;
+  sound.play();
 }
 
 
@@ -258,4 +285,49 @@ function updateMuteButton() {
   } else {
     muteIcon.src = 'img/6.Botones/Sound/sound-on.svg';
   }
+}
+
+
+/**
+ * Connects every touch button with a key of the keyboard object.
+ * @returns {void}
+ */
+function initTouchButtons() {
+  bindHoldButton('touchLeft', 'left');
+  bindHoldButton('touchRight', 'right');
+  bindTapButton('touchJump', 'jump');
+  bindTapButton('touchShoot', 'shoot');
+  bindTapButton('touchPoison', 'shootPoison');
+}
+
+
+/**
+ * For swimming: the key is true while the finger is on the button and false when it is lifted.
+ * @param {string} buttonId - The id of the touch button.
+ * @param {string} key - The name of the key in the keyboard object, for example 'left'.
+ * @returns {void}
+ */
+function bindHoldButton(buttonId, key) {
+  let button = document.getElementById(buttonId);
+  bindTapButton(buttonId, key);
+  button.addEventListener('pointerup', () => keyboard[key] = false);
+  button.addEventListener('pointerleave', () => keyboard[key] = false);
+  button.addEventListener('pointercancel', () => keyboard[key] = false);
+}
+
+
+/**
+ * For jumping and attacking: every tap sets the key to true once. It also turns off the
+ * context menu that opens when you hold a finger on the button.
+ * @param {string} buttonId - The id of the touch button.
+ * @param {string} key - The name of the key in the keyboard object, for example 'jump'.
+ * @returns {void}
+ */
+function bindTapButton(buttonId, key) {
+  let button = document.getElementById(buttonId);
+  button.addEventListener('pointerdown', (event) => {
+    event.preventDefault();
+    keyboard[key] = true;
+  });
+  button.addEventListener('contextmenu', (event) => event.preventDefault());
 }
