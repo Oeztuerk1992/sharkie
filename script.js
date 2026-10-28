@@ -1,6 +1,8 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let backgroundMusic = new Audio('sounds/background.mp3');
+let isMuted = false;
 
 
 /**
@@ -9,6 +11,7 @@ let keyboard = new Keyboard();
  */
 function init() {
   canvas = document.getElementById('canvas');
+  loadMuteState();
   preloadImages();
 }
 
@@ -58,9 +61,11 @@ function areAllImagesLoaded() {
 function startGame() {
   document.getElementById('startScreen').classList.add('d-none');
   document.getElementById('endScreen').classList.add('d-none');
+  document.getElementById('muteButton').classList.remove('d-none');
   keyboard = new Keyboard();
   initLevel();
   world = new World(canvas, keyboard);
+  playBackgroundMusic();
 }
 
 
@@ -109,6 +114,7 @@ function restartGame() {
  */
 function goHome() {
   document.getElementById('endScreen').classList.add('d-none');
+  document.getElementById('muteButton').classList.add('d-none');
   document.getElementById('startScreen').classList.remove('d-none');
 }
 
@@ -119,6 +125,7 @@ function goHome() {
  */
 function openInstructions() {
   document.getElementById('instructions').showModal();
+  playBackgroundMusic();
 }
 
 
@@ -196,5 +203,59 @@ function setAttackKey(code, isPressed) {
   }
   if (code === 'KeyF') {
     keyboard.shootPoison = isPressed;
+  }
+}
+
+
+/**
+ * Reads from the local storage if the sound was muted last time and prepares the music.
+ * @returns {void}
+ */
+function loadMuteState() {
+  isMuted = localStorage.getItem('sharkieMuted') === 'true';
+  backgroundMusic.loop = true;
+  backgroundMusic.volume = 0.25;
+  updateMuteButton();
+}
+
+
+/**
+ * Turns the sound on or off and saves the choice in the local storage.
+ * @returns {void}
+ */
+function toggleMute() {
+  isMuted = !isMuted;
+  localStorage.setItem('sharkieMuted', isMuted);
+  updateMuteButton();
+  document.getElementById('muteButton').blur();
+  if (isMuted) {
+    backgroundMusic.pause();
+  } else {
+    backgroundMusic.play();
+  }
+}
+
+
+/**
+ * Starts the background music, but only if the sound is not muted.
+ * @returns {void}
+ */
+function playBackgroundMusic() {
+  if (!isMuted) {
+    backgroundMusic.play();
+  }
+}
+
+
+/**
+ * Shows the crossed out speaker when the sound is muted.
+ * @returns {void}
+ */
+function updateMuteButton() {
+  let muteIcon = document.getElementById('muteIcon');
+  if (isMuted) {
+    muteIcon.src = 'img/6.Botones/Sound/sound-off.svg';
+  } else {
+    muteIcon.src = 'img/6.Botones/Sound/sound-on.svg';
   }
 }

@@ -23,22 +23,32 @@ h1 {
   letter-spacing: 2px;
 }
 
+.game-container {
+  position: relative;
+  width: 1280px;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
 canvas {
   display: block;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   background-color: black;
 }
 
 /* Smartphones and small screens: canvas as wide as the screen */
 @media only screen and (max-width: 1280px) {
-  canvas {
+  .game-container {
     width: 100%;
   }
 }
 
 /* Smartphones in landscape: canvas as high as the screen */
 @media only screen and (max-height: 720px) {
-  canvas {
+  .game-container {
+    width: auto;
     height: 100vh;
   }
 }
@@ -195,6 +205,31 @@ canvas {
   gap: 24px;
 }
 
+/* sound on / off button */
+.mute-button {
+  position: absolute;
+  top: 2%;
+  right: 1.5%;
+  z-index: 20;
+  width: clamp(36px, 4vw, 52px);
+  height: clamp(36px, 4vw, 52px);
+  padding: 0;
+  border: 3px solid white;
+  border-radius: 50%;
+  background-color: #4e1580;
+  color: white;
+  cursor: pointer;
+}
+
+.mute-button:hover {
+  background-color: #bd0a7c;
+}
+
+.mute-button img {
+  width: 60%;
+  height: 60%;
+}
+
 /* hidden by default */
 .rotate-hint {
   display: none;
@@ -216,7 +251,7 @@ canvas {
     display: none;
   }
 
-  canvas,
+  .game-container,
   .start-screen,
   .end-screen {
     display: none;
