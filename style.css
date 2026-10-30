@@ -283,6 +283,64 @@ canvas {
   }
 }
 
+/* legal notice page */
+body.legal-page {
+  height: auto;
+  min-height: 100vh;
+  display: block;
+  overflow: auto;
+  background-image: url('img/3. Background/Dark/1.png');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.legal-content {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 32px;
+  border: 3px solid white;
+  border-radius: 24px;
+  background-color: rgba(11, 1, 61, 0.85);
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.legal-content h1,
+.legal-content h2 {
+  font-family: 'Luckiest Guy', sans-serif;
+  font-weight: normal;
+  color: #fbe51e;
+}
+
+.legal-content h1 {
+  display: block;
+  margin-top: 16px;
+}
+
+.legal-content h2 {
+  margin-bottom: 4px;
+  font-size: 22px;
+}
+
+.back-link {
+  color: #7fffd4;
+  font-family: 'Luckiest Guy', sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .legal-content {
+    margin: 16px;
+    padding: 20px;
+  }
+}
+
 /* hidden by default */
 .rotate-hint {
   display: none;
