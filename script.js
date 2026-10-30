@@ -4,6 +4,7 @@ let keyboard = new Keyboard();
 let backgroundMusic = new Audio('sounds/background.mp3');
 let bubbleSound = new Audio('sounds/bubble.mp3');
 let snoreSound = new Audio('sounds/snore.mp3');
+let enemyTrappedSound = new Audio('sounds/enemy-trapped.mp3');
 let isMuted = false;
 
 
@@ -223,6 +224,7 @@ function prepareSounds() {
   bubbleSound.volume = 0.4;
   snoreSound.loop = true;
   snoreSound.volume = 0.5;
+  enemyTrappedSound.volume = 0.6;
 }
 
 

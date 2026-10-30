@@ -164,5 +164,6 @@ class MovableObject extends DrawableObject {
    */
   hitByBubble(bubble) {
     this.energy = 0;
+    playSound(enemyTrappedSound);
   }
 }
