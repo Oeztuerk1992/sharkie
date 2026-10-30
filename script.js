@@ -3,6 +3,7 @@ let world;
 let keyboard = new Keyboard();
 let backgroundMusic = new Audio('sounds/background.mp3');
 let bubbleSound = new Audio('sounds/bubble.mp3');
+let snoreSound = new Audio('sounds/snore.mp3');
 let isMuted = false;
 
 
@@ -82,6 +83,7 @@ function stopGame() {
     clearInterval(i);
   }
   cancelAnimationFrame(world.animationFrameId);
+  stopSnoring();
 }
 
 
@@ -219,6 +221,8 @@ function prepareSounds() {
   backgroundMusic.loop = true;
   backgroundMusic.volume = 0.25;
   bubbleSound.volume = 0.4;
+  snoreSound.loop = true;
+  snoreSound.volume = 0.5;
 }
 
 
@@ -257,6 +261,7 @@ function toggleMute() {
   document.getElementById('muteButton').blur();
   if (isMuted) {
     backgroundMusic.pause();
+    stopSnoring();
   } else {
     backgroundMusic.play();
   }
@@ -271,6 +276,27 @@ function playBackgroundMusic() {
   if (!isMuted) {
     backgroundMusic.play();
   }
+}
+
+
+/**
+ * Starts the snoring sound while Sharkie sleeps, if it is not already playing.
+ * @returns {void}
+ */
+function startSnoring() {
+  if (!isMuted && snoreSound.paused) {
+    snoreSound.play();
+  }
+}
+
+
+/**
+ * Stops the snoring sound and rewinds it.
+ * @returns {void}
+ */
+function stopSnoring() {
+  snoreSound.pause();
+  snoreSound.currentTime = 0;
 }
 
 

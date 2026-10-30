@@ -285,6 +285,7 @@ class Character extends MovableObject {
     if (keyboard.left || keyboard.right || keyboard.jump || keyboard.shoot || keyboard.shootPoison) {
       this.lastActivity = new Date().getTime();
       this.sleepStep = 0;
+      stopSnoring();
     }
   }
 
@@ -304,6 +305,7 @@ class Character extends MovableObject {
    * @returns {void}
    */
   playSleepAnimation() {
+    startSnoring();
     this.img = this.imageCache[this.imagesLongIdle[this.sleepStep]];
     this.sleepStep++;
     if (this.sleepStep >= this.imagesLongIdle.length) {

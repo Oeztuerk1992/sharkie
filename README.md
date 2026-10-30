@@ -110,3 +110,4 @@ Keyboard                      Remembers which keys are pressed
 
 - Graphics: provided by the [Developer Akademie](https://developerakademie.com/)
 - Font: [Luckiest Guy](https://fonts.google.com/specimen/Luckiest+Guy) (Apache License 2.0)
+- Snore sound: "Cartoon Whistle Snore" by [BudgetPixel AI](https://budgetpixel.com/sfx/cartoon-whistle-snore-f5c02db6) (CC BY 4.0)
