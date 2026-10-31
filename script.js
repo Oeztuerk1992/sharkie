@@ -8,6 +8,7 @@ let enemyTrappedSound = new Audio('sounds/enemy-trapped.mp3');
 let bossSplashSound = new Audio('sounds/boss-splash.mp3');
 let bossBiteSound = new Audio('sounds/boss-bite.mp3');
 let winSound = new Audio('sounds/win.mp3');
+let gameOverSound = new Audio('sounds/game-over.mp3');
 let isMuted = false;
 
 
@@ -74,6 +75,7 @@ function startGame() {
   initLevel();
   world = new World(canvas, keyboard);
   winSound.pause();
+  gameOverSound.pause();
   playBackgroundMusic();
 }
 
@@ -106,6 +108,7 @@ function showEndScreen(isWon) {
     playSound(winSound);
   } else {
     endScreen.innerHTML = getGameOverTemplate();
+    playSound(gameOverSound);
   }
   endScreen.classList.remove('d-none');
 }
@@ -234,6 +237,7 @@ function prepareSounds() {
   bossSplashSound.volume = 0.7;
   bossBiteSound.volume = 0.7;
   winSound.volume = 0.6;
+  gameOverSound.volume = 0.6;
 }
 
 
