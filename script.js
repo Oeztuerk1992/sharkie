@@ -5,6 +5,8 @@ let backgroundMusic = new Audio('sounds/background.mp3');
 let bubbleSound = new Audio('sounds/bubble.mp3');
 let snoreSound = new Audio('sounds/snore.mp3');
 let enemyTrappedSound = new Audio('sounds/enemy-trapped.mp3');
+let bossSplashSound = new Audio('sounds/boss-splash.mp3');
+let bossBiteSound = new Audio('sounds/boss-bite.mp3');
 let isMuted = false;
 
 
@@ -225,6 +227,8 @@ function prepareSounds() {
   snoreSound.loop = true;
   snoreSound.volume = 0.5;
   enemyTrappedSound.volume = 0.6;
+  bossSplashSound.volume = 0.7;
+  bossBiteSound.volume = 0.7;
 }
 
 

@@ -115,6 +115,7 @@ class EndBoss extends MovableObject {
     if (this.world && this.world.character.x > 3800) {
       this.hadFirstContact = true;
       this.y = 0;
+      playSound(bossSplashSound);
     }
   }
 
@@ -194,6 +195,7 @@ class EndBoss extends MovableObject {
       this.isAttacking = true;
       this.attackStep = 0;
       this.lastAttack = new Date().getTime();
+      playSound(bossBiteSound);
     }
   }
 
