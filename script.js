@@ -7,6 +7,7 @@ let snoreSound = new Audio('sounds/snore.mp3');
 let enemyTrappedSound = new Audio('sounds/enemy-trapped.mp3');
 let bossSplashSound = new Audio('sounds/boss-splash.mp3');
 let bossBiteSound = new Audio('sounds/boss-bite.mp3');
+let winSound = new Audio('sounds/win.mp3');
 let isMuted = false;
 
 
@@ -72,6 +73,7 @@ function startGame() {
   keyboard = new Keyboard();
   initLevel();
   world = new World(canvas, keyboard);
+  winSound.pause();
   playBackgroundMusic();
 }
 
@@ -91,15 +93,17 @@ function stopGame() {
 
 
 /**
- * Stops the game and shows the win or game over screen.
+ * Stops the game and the music and shows the win or game over screen.
  * @param {boolean} isWon - True if the player won the game.
  * @returns {void}
  */
 function showEndScreen(isWon) {
   stopGame();
+  backgroundMusic.pause();
   let endScreen = document.getElementById('endScreen');
   if (isWon) {
     endScreen.innerHTML = getWinScreenTemplate();
+    playSound(winSound);
   } else {
     endScreen.innerHTML = getGameOverTemplate();
   }
@@ -229,6 +233,7 @@ function prepareSounds() {
   enemyTrappedSound.volume = 0.6;
   bossSplashSound.volume = 0.7;
   bossBiteSound.volume = 0.7;
+  winSound.volume = 0.6;
 }
 
 
