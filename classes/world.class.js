@@ -11,7 +11,7 @@ class World {
   ctx;
   keyboard;
   cameraX = 0;
-  showFrames = true;
+  showFrames = false;
 
 
   /**
