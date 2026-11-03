@@ -42,6 +42,7 @@ class World {
     }, 200);
     setInterval(() => {
       this.checkBubbleHits();
+      this.checkFinSlap();
       this.removeFarBubbles();
     }, 1000 / 60);
   }
@@ -315,5 +316,22 @@ class World {
     setTimeout(() => {
       showEndScreen(isWon);
     }, 2500);
+  }
+
+
+  /**
+   * Knocks out every puffer fish that Sharkie hits with his fin.
+   * @returns {void}
+   */
+  checkFinSlap() {
+    if (!this.character.isSlapping()) {
+      return;
+    }
+    this.level.enemies.forEach(enemy => {
+      if (enemy instanceof PufferFish && !enemy.isDead() && this.character.isHittingWithFin(enemy)) {
+        enemy.energy = 0;
+        playSound(enemyTrappedSound);
+      }
+    });
   }
 }

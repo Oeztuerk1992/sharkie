@@ -78,8 +78,18 @@ class Character extends MovableObject {
     'img/1.Sharkie/4.Attack/Bubble trap/For Whale/7.png',
     'img/1.Sharkie/4.Attack/Bubble trap/For Whale/8.png'
   ];
+  imagesFinSlap = [
+    'img/1.Sharkie/4.Attack/Fin slap/1.png',
+    'img/1.Sharkie/4.Attack/Fin slap/5.png',
+    'img/1.Sharkie/4.Attack/Fin slap/5.png',
+    'img/1.Sharkie/4.Attack/Fin slap/6.png',
+    'img/1.Sharkie/4.Attack/Fin slap/6.png',
+    'img/1.Sharkie/4.Attack/Fin slap/7.png',
+    'img/1.Sharkie/4.Attack/Fin slap/7.png',
+    'img/1.Sharkie/4.Attack/Fin slap/8.png'
+  ];
   isAttacking = false;
-  isPoisonAttack = false;
+  attackType = 'bubble';
   attackStep = 0;
   imagesLongIdle = [
     'img/1.Sharkie/2.Long_IDLE/i1.png',
@@ -112,6 +122,7 @@ class Character extends MovableObject {
     this.loadImages(this.imagesAttack);
     this.loadImages(this.imagesLongIdle);
     this.loadImages(this.imagesPoisonAttack);
+    this.loadImages(this.imagesFinSlap);
     this.applyGravity();
     this.animate();
   }
@@ -119,22 +130,39 @@ class Character extends MovableObject {
 
   /**
    * Starts moving and animating the character.
+   * The attack animation has its own, faster interval, so attacks feel quick.
    * @returns {void}
    */
   animate() {
-    setInterval(() => {
-      if (!this.isDead()) {
-        this.checkActivity();
-        this.moveHorizontal();
-        this.checkJump();
-        this.checkShoot();
-      }
-      this.updateCamera();
-    }, 1000 / 60);
+    setInterval(() => this.updateCharacter(), 1000 / 60);
+    setInterval(() => this.animateCharacter(), 150);
+    setInterval(() => this.animateAttack(), 60);
+  }
 
-    setInterval(() => {
-      this.animateCharacter();
-    }, 150);
+
+  /**
+   * Reads the keys and moves the character, as long as he is alive. The camera always follows him.
+   * @returns {void}
+   */
+  updateCharacter() {
+    if (!this.isDead()) {
+      this.checkActivity();
+      this.moveHorizontal();
+      this.checkJump();
+      this.checkAttackKeys();
+    }
+    this.updateCamera();
+  }
+
+
+  /**
+   * Shows the next attack image while an attack is running.
+   * @returns {void}
+   */
+  animateAttack() {
+    if (this.isAttacking && !this.isDead()) {
+      this.playAttackAnimation();
+    }
   }
 
 
@@ -167,14 +195,15 @@ class Character extends MovableObject {
 
 
   /**
-   * Plays the right animation: dead, attack, hurt, swimming, sleeping or idle.
+   * Plays the right animation: dead, hurt, swimming, sleeping or idle.
+   * During an attack it does nothing, because animateAttack() shows the attack images.
    * @returns {void}
    */
   animateCharacter() {
     if (this.isDead()) {
       this.playDeadAnimation();
     } else if (this.isAttacking) {
-      this.playAttackAnimation();
+      return;
     } else if (this.isHurt()) {
       this.playAnimation(this.imagesHurt);
     } else if (this.isSwimming()) {
@@ -227,52 +256,73 @@ class Character extends MovableObject {
 
 
   /**
-   * Starts a bubble attack with D, or a poison bubble attack with F if Sharkie has poison.
+   * Starts a bubble attack with D, a poison bubble attack with F (only with poison) or a fin slap with S.
    * @returns {void}
    */
-  checkShoot() {
-    if (this.world.keyboard.shoot) {
-      this.startAttack(false);
+  checkAttackKeys() {
+    let keyboard = this.world.keyboard;
+    if (keyboard.shoot) {
+      this.startAttack('bubble');
     }
-    if (this.world.keyboard.shootPoison && this.poison > 0) {
-      this.startAttack(true);
+    if (keyboard.shootPoison && this.poison > 0) {
+      this.startAttack('poison');
     }
-    this.world.keyboard.shoot = false;
-    this.world.keyboard.shootPoison = false;
+    if (keyboard.slap) {
+      this.startAttack('slap');
+    }
+    keyboard.shoot = false;
+    keyboard.shootPoison = false;
+    keyboard.slap = false;
   }
 
 
   /**
    * Starts the attack animation, but only if no attack is running.
-   * @param {boolean} isPoisoned - True for a poison bubble.
+   * @param {string} type - 'bubble', 'poison' or 'slap'.
    * @returns {void}
    */
-  startAttack(isPoisoned) {
+  startAttack(type) {
     if (this.isAttacking) {
       return;
     }
     this.isAttacking = true;
-    this.isPoisonAttack = isPoisoned;
+    this.attackType = type;
     this.attackStep = 0;
-    playSound(bubbleSound);
+    if (type !== 'slap') {
+      playSound(bubbleSound);
+    }
   }
 
 
   /**
-   * Shows the next attack image. After the last image the bubble is shot.
+   * Shows the next attack image. After the last image of a bubble attack the bubble is shot.
    * @returns {void}
    */
   playAttackAnimation() {
-    let images = this.imagesAttack;
-    if (this.isPoisonAttack) {
-      images = this.imagesPoisonAttack;
-    }
+    let images = this.getAttackImages();
     this.img = this.imageCache[images[this.attackStep]];
     this.attackStep++;
     if (this.attackStep >= images.length) {
       this.isAttacking = false;
-      this.world.shootBubble(this.isPoisonAttack);
+      if (this.attackType !== 'slap') {
+        this.world.shootBubble(this.attackType === 'poison');
+      }
     }
+  }
+
+
+  /**
+   * Returns the images for the current attack.
+   * @returns {string[]} The image paths of the attack animation.
+   */
+  getAttackImages() {
+    if (this.attackType === 'poison') {
+      return this.imagesPoisonAttack;
+    }
+    if (this.attackType === 'slap') {
+      return this.imagesFinSlap;
+    }
+    return this.imagesAttack;
   }
 
 
@@ -311,5 +361,34 @@ class Character extends MovableObject {
     if (this.sleepStep >= this.imagesLongIdle.length) {
       this.sleepStep = 10;
     }
+  }
+
+
+  /**
+   * Checks if the fin is out right now. That is the case from the second image of the fin slap.
+   * @returns {boolean} True while the fin can hit an enemy.
+   */
+  isSlapping() {
+    return this.isAttacking && this.attackType === 'slap' && this.attackStep >= 2;
+  }
+
+
+  /**
+   * Checks if an enemy is close enough in front of Sharkie to be hit by his fin.
+   * The fin reaches from his body up to 20 pixels in front of the image.
+   * @param {MovableObject} enemy - The enemy to check.
+   * @returns {boolean} True if the fin hits the enemy.
+   */
+  isHittingWithFin(enemy) {
+    let finLeft = this.x + this.offset.left;
+    let finRight = this.x + this.width + 20;
+    if (this.otherDirection) {
+      finLeft = this.x - 20;
+      finRight = this.x + this.width - this.offset.right;
+    }
+    return finRight > enemy.x + enemy.offset.left &&
+      finLeft < enemy.x + enemy.width - enemy.offset.right &&
+      this.y + this.height - this.offset.bottom > enemy.y + enemy.offset.top &&
+      this.y + this.offset.top < enemy.y + enemy.height - enemy.offset.bottom;
   }
 }

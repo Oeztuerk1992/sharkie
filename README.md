@@ -72,7 +72,9 @@ On phones and tablets the same actions are on the touch buttons.
 ```
 index.html            Start page with the game canvas
 impressum.html        Legal notice
-script.js             Starts the game and reads the keyboard
+script.js             Starts, ends and restarts the game, start screen and dialog
+sound.js              Music, sound effects and the mute button
+controls.js           Keyboard and touch buttons
 style.css             Layout of the page
 classes/              One file per class (World, Character, enemies, status bars, ...)
 levels/               Level data – where enemies, barriers, coins and bottles are placed
