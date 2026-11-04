@@ -31,7 +31,8 @@ class World {
 
 
   /**
-   * Checks if the character touches an enemy, a coin or a poison bottle, and if a bubble hits an enemy.
+   * Checks 60 times per second if the character touches an enemy, a coin or a poison bottle,
+   * and if a bubble or the fin hits an enemy. So even fast jumps cannot fly through a coin.
    * @returns {void}
    */
   checkCollisions() {
@@ -39,12 +40,10 @@ class World {
       this.checkEnemyCollisions();
       this.collectCoins();
       this.collectPoisonBottles();
-      this.checkGameOver();
-    }, 200);
-    setInterval(() => {
       this.checkBubbleHits();
       this.checkFinSlap();
       this.removeFarBubbles();
+      this.checkGameOver();
     }, 1000 / 60);
   }
 
@@ -228,9 +227,9 @@ class World {
     this.ctx.lineWidth = 2;
     this.ctx.strokeStyle = 'red';
     this.ctx.rect(
-      object.x + object.offset.left,
+      object.x + object.getOffsetLeft(),
       object.y + object.offset.top,
-      object.width - object.offset.left - object.offset.right,
+      object.width - object.getOffsetLeft() - object.getOffsetRight(),
       object.height - object.offset.top - object.offset.bottom
     );
     this.ctx.stroke();

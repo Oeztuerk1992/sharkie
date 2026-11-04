@@ -113,10 +113,34 @@ class MovableObject extends DrawableObject {
    * @returns {boolean} True if both objects touch each other.
    */
   isColliding(mo) {
-    return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+    return this.x + this.width - this.getOffsetRight() > mo.x + mo.getOffsetLeft() &&
       this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
-      this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+      this.x + this.getOffsetLeft() < mo.x + mo.width - mo.getOffsetRight() &&
       this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+  }
+
+
+  /**
+   * Returns the empty space on the left of the image. When the image is mirrored, left and right swap.
+   * @returns {number} The left offset.
+   */
+  getOffsetLeft() {
+    if (this.otherDirection) {
+      return this.offset.right;
+    }
+    return this.offset.left;
+  }
+
+
+  /**
+   * Returns the empty space on the right of the image. When the image is mirrored, left and right swap.
+   * @returns {number} The right offset.
+   */
+  getOffsetRight() {
+    if (this.otherDirection) {
+      return this.offset.left;
+    }
+    return this.offset.right;
   }
 
 
