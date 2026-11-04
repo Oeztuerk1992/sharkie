@@ -93,6 +93,12 @@ canvas {
   font-size: clamp(14px, 2.5vh, 20px);
 }
 
+.loading-text {
+  margin: 0;
+  color: #fbe51e;
+  font-size: clamp(16px, 3.5vh, 26px);
+}
+
 .image-button {
   padding: 0;
   border: none;

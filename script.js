@@ -36,11 +36,25 @@ function preloadImages() {
  */
 function enableStartWhenLoaded() {
   let loadingInterval = setInterval(() => {
+    showLoadingProgress();
     if (areAllImagesLoaded()) {
       clearInterval(loadingInterval);
+      document.getElementById('loadingText').classList.add('d-none');
       document.getElementById('startButton').disabled = false;
     }
   }, 100);
+}
+
+
+/**
+ * Shows how many percent of the images are already loaded, so the player knows why the start button is not ready yet.
+ * @returns {void}
+ */
+function showLoadingProgress() {
+  let images = Object.values(DrawableObject.allImages);
+  let loadedImages = images.filter(image => image.complete);
+  let percent = Math.round(loadedImages.length / images.length * 100);
+  document.getElementById('loadingText').innerHTML = `Loading ${percent} %`;
 }
 
 
