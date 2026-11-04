@@ -131,14 +131,26 @@ class EndBoss extends MovableObject {
 
 
   /**
-   * Only poison bubbles hurt the end boss. Every hit takes away 25 energy.
+   * A normal bubble takes away 10 energy, a poison bubble 25. So the end boss can always be beaten.
    * @param {ThrowableObject} bubble - The bubble that hit the end boss.
    * @returns {void}
    */
   hitByBubble(bubble) {
     if (bubble.isPoisoned) {
       this.hit(25);
+    } else {
+      this.hit(10);
     }
+  }
+
+
+  /**
+   * The end boss is only hurt for half a second, so fast bubbles still hit him.
+   * @returns {boolean} True if the end boss was hit in the last half second.
+   */
+  isHurt() {
+    let timePassed = new Date().getTime() - this.lastHit;
+    return timePassed < 500;
   }
 
 

@@ -23,6 +23,14 @@ class StatusBar extends DrawableObject {
       'img/4. Marcadores/green/poisoned bubbles/60_ copia 2.png',
       'img/4. Marcadores/green/poisoned bubbles/80_ copia 2.png',
       'img/4. Marcadores/green/poisoned bubbles/100_ copia 3.png'
+    ],
+    boss: [
+      'img/4. Marcadores/orange/0_  copia.png',
+      'img/4. Marcadores/orange/20_ copia 2.png',
+      'img/4. Marcadores/orange/40_  copia.png',
+      'img/4. Marcadores/orange/60_  copia.png',
+      'img/4. Marcadores/orange/80_  copia.png',
+      'img/4. Marcadores/orange/100_  copia.png'
     ]
   };
   images;
@@ -30,16 +38,17 @@ class StatusBar extends DrawableObject {
 
 
   /**
-   * Creates a status bar in the top left corner.
-   * @param {string} type - 'life', 'coin' or 'poison'.
+   * Creates a status bar.
+   * @param {string} type - 'life', 'coin', 'poison' or 'boss'.
+   * @param {number} x - The x-coordinate of the bar.
    * @param {number} y - The y-coordinate of the bar.
    * @param {number} percentage - The start value from 0 to 100.
    */
-  constructor(type, y, percentage) {
+  constructor(type, x, y, percentage) {
     super();
     this.images = this.allImages[type];
     this.loadImages(this.images);
-    this.x = 20;
+    this.x = x;
     this.y = y;
     this.width = 250;
     this.height = 66;

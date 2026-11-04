@@ -12,9 +12,9 @@ It was built as a student project at the Developer Akademie with plain HTML, CSS
 - **Start screen** – Landing page with a start button and a "How to play" dialog that explains the story and the keys. The dialog closes with the X or with a click next to it.
 - **Smooth character animations** – Idle, swimming, attack, hurt and dead animations for Sharkie. After 10 seconds without input he falls asleep and snores.
 - **Gravity and jumping** – Sharkie slowly sinks to the ground and can push himself up again with several jumps in a row.
-- **Bubble attack** – Normal bubbles trap puffer fish and jelly fish. Poison bubbles use a collected poison bottle.
+- **Bubble attack and fin slap** – Normal bubbles trap puffer fish and jelly fish. Poison bubbles use a collected poison bottle. A fin slap knocks out puffer fish.
 - **Two enemy types + end boss** – Puffer fish that inflate themselves and jelly fish that swim up and down (the green and pink ones are extra dangerous).
-- **Boss fight** – At the end of the level a whale dives in from above, follows Sharkie and bites. Only poison bubbles hurt him.
+- **Boss fight** – At the end of the level a whale dives in from above, follows Sharkie and bites. He has his own life bar. Normal bubbles hurt him a little, poison bubbles a lot.
 - **Collectibles** – Coins and poison bottles, each with its own status bar.
 - **Health system** – Sharkie loses energy when he touches an enemy and is invulnerable for a short time after each hit. When his life bar is empty, the game is lost.
 - **Precise hit boxes** – Every object has its own offsets, so collisions only happen where the object is really visible.
@@ -36,6 +36,7 @@ It was built as a student project at the Developer Akademie with plain HTML, CSS
 | Space or ↑ | Jump / swim up |
 | D | Shoot a bubble |
 | F | Shoot a poison bubble (needs a poison bottle) |
+| S | Fin slap |
 
 On phones and tablets the same actions are on the touch buttons.
 

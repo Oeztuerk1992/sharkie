@@ -5,7 +5,7 @@ class PufferFish extends MovableObject {
   offsetSmall = { top: 7, left: 4, right: 15, bottom: 27 };
   offsetInflated = { top: 0, left: 4, right: 10, bottom: 0 };
   startX;
-  swimRange = 630;
+  swimRange;
   state = 'swim';
   transitionStep = 0;
   inflateOffset = 10;
@@ -36,15 +36,19 @@ class PufferFish extends MovableObject {
 
   /**
    * Creates the puffer fish and loads all its images.
+   * @param {number} x - The start x-coordinate. From here it swims to the left and back.
+   * @param {number} y - The y-coordinate.
+   * @param {number} swimRange - How far it swims to the left before it turns around.
    */
-  constructor() {
+  constructor(x, y, swimRange) {
     super().loadImage(this.imagesSwimming[0]);
     this.loadImages(this.imagesSwimming);
     this.loadImages(this.imagesInflating);
     this.loadImages(this.imagesInflated);
     this.loadImages([this.imageDead]);
-    this.x = 1500;
-    this.y = 340;
+    this.x = x;
+    this.y = y;
+    this.swimRange = swimRange;
     this.startX = this.x;
     this.speed = 1 + Math.random() * 1.5;
     this.animate();

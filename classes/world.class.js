@@ -1,8 +1,9 @@
 class World {
   character = new Character();
-  lifeBar = new StatusBar('life', 0, 100);
-  coinBar = new StatusBar('coin', 50, 0);
-  poisonBar = new StatusBar('poison', 100, 0);
+  lifeBar = new StatusBar('life', 20, 0, 100);
+  coinBar = new StatusBar('coin', 20, 50, 0);
+  poisonBar = new StatusBar('poison', 20, 100, 0);
+  bossBar = new StatusBar('boss', 940, 0, 100);
   throwableObjects = [];
   animationFrameId;
   isGameOver = false;
@@ -145,6 +146,20 @@ class World {
     this.addToMap(this.lifeBar);
     this.addToMap(this.coinBar);
     this.addToMap(this.poisonBar);
+    this.drawBossBar();
+  }
+
+
+  /**
+   * Shows the life bar of the end boss in the top right corner, but only after he has appeared.
+   * @returns {void}
+   */
+  drawBossBar() {
+    let endBoss = this.getEndBoss();
+    if (endBoss.hadFirstContact) {
+      this.bossBar.setPercentage(endBoss.energy);
+      this.addToMap(this.bossBar);
+    }
   }
 
 

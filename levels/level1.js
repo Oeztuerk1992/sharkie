@@ -48,10 +48,16 @@ function initLevel() {
  */
 function createEnemies() {
   return [
-    new PufferFish(),
+    new PufferFish(1500, 340, 630),
     new JellyFish(1950, 'yellow'),
+    new PufferFish(2200, 500, 450),
+    new JellyFish(1750, 'pink'),
+    new JellyFish(2150, 'yellow'),
+    new PufferFish(2950, 250, 550),
     new JellyFish(3040, 'green'),
     new JellyFish(3190, 'pink'),
+    new PufferFish(3780, 480, 220),
+    new JellyFish(3650, 'yellow'),
     new EndBoss()
   ];
 }
