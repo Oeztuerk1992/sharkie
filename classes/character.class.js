@@ -4,7 +4,7 @@ class Character extends MovableObject {
   width = 390;
   height = 420;
   speed = 7;
-  offset = { top: 197, left: 79, right: 78, bottom: 103 };
+  offset = { top: 215, left: 130, right: 80, bottom: 110 };
   world;
   imagesIdle = [
     'img/1.Sharkie/1.IDLE/1.png',
@@ -379,14 +379,14 @@ class Character extends MovableObject {
    * @returns {boolean} True if the fin hits the enemy.
    */
   isHittingWithFin(enemy) {
-    let finLeft = this.x + this.offset.left;
+    let finLeft = this.x + this.getOffsetLeft();
     let finRight = this.x + this.width + 20;
     if (this.otherDirection) {
       finLeft = this.x - 20;
-      finRight = this.x + this.width - this.offset.right;
+      finRight = this.x + this.width - this.getOffsetRight();
     }
-    return finRight > enemy.x + enemy.offset.left &&
-      finLeft < enemy.x + enemy.width - enemy.offset.right &&
+    return finRight > enemy.x + enemy.getOffsetLeft() &&
+      finLeft < enemy.x + enemy.width - enemy.getOffsetRight() &&
       this.y + this.height - this.offset.bottom > enemy.y + enemy.offset.top &&
       this.y + this.offset.top < enemy.y + enemy.height - enemy.offset.bottom;
   }

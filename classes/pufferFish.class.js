@@ -1,9 +1,9 @@
 class PufferFish extends MovableObject {
   width = 120;
   height = 100;
-  offset = { top: 7, left: 4, right: 15, bottom: 27 };
-  offsetSmall = { top: 7, left: 4, right: 15, bottom: 27 };
-  offsetInflated = { top: 0, left: 4, right: 10, bottom: 0 };
+  offset = { top: 10, left: 5, right: 25, bottom: 30 };
+  offsetSmall = { top: 10, left: 5, right: 25, bottom: 30 };
+  offsetInflated = { top: 5, left: 6, right: 25, bottom: 5 };
   startX;
   swimRange;
   state = 'swim';

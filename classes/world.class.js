@@ -278,9 +278,9 @@ class World {
    * @returns {void}
    */
   shootBubble(isPoisoned) {
-    let x = this.character.x + this.character.width - this.character.offset.right;
+    let x = this.character.x + this.character.width - this.character.getOffsetRight();
     if (this.character.otherDirection) {
-      x = this.character.x + this.character.offset.left - 60;
+      x = this.character.x + this.character.getOffsetLeft() - 60;
     }
     let bubble = new ThrowableObject(x, this.character.y + 230, this.character.otherDirection, isPoisoned);
     this.throwableObjects.push(bubble);
