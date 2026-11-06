@@ -159,12 +159,30 @@ function closeInstructions() {
 
 
 /**
- * Closes the dialog when the player clicks next to it.
+ * Opens the dialog with the legal notice.
+ * @returns {void}
+ */
+function openLegalNotice() {
+  document.getElementById('legalNotice').showModal();
+}
+
+
+/**
+ * Closes the dialog with the legal notice.
+ * @returns {void}
+ */
+function closeLegalNotice() {
+  document.getElementById('legalNotice').close();
+}
+
+
+/**
+ * Closes a dialog when the player clicks next to it. A click inside the box hits the content, not the dialog itself.
  * @param {MouseEvent} event - The click event.
  * @returns {void}
  */
-function closeInstructionsOnBackdrop(event) {
-  if (event.target.id === 'instructions') {
-    closeInstructions();
+function closeDialogOnBackdrop(event) {
+  if (event.target.tagName === 'DIALOG') {
+    event.target.close();
   }
 }

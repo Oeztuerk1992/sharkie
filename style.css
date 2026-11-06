@@ -135,9 +135,13 @@ canvas {
 }
 
 .legal-link {
+  padding: 0;
+  border: none;
+  background: none;
   color: white;
   font-family: Arial, sans-serif;
   font-size: 14px;
+  text-decoration: underline;
   cursor: pointer;
 }
 
@@ -293,61 +297,40 @@ canvas {
   }
 }
 
-/* legal notice page */
-body.legal-page {
-  height: auto;
-  min-height: 100vh;
-  display: block;
-  overflow: auto;
-  background-image: url('img/3. Background/Dark/1.png');
-  background-size: cover;
-  background-attachment: fixed;
-  background-position: center;
+/* dialog with the legal notice */
+.legal-notice {
+  width: min(860px, 94vw);
 }
 
-.legal-content {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 32px;
-  border: 3px solid white;
-  border-radius: 24px;
-  background-color: rgba(11, 1, 61, 0.85);
-  font-family: Arial, sans-serif;
-  line-height: 1.5;
+.legal-columns {
+  columns: 2;
+  column-gap: 32px;
+  font-size: clamp(11px, 2.2vh, 15px);
+  line-height: 1.4;
 }
 
-.legal-content h1,
-.legal-content h2 {
+.legal-columns section {
+  break-inside: avoid;
+}
+
+.legal-columns h3 {
+  margin: 0 0 4px 0;
+  color: #fbe51e;
   font-family: 'Luckiest Guy', sans-serif;
   font-weight: normal;
-  color: #fbe51e;
 }
 
-.legal-content h1 {
-  display: block;
-  margin-top: 16px;
+.legal-columns p {
+  margin: 0 0 12px 0;
 }
 
-.legal-content h2 {
-  margin-bottom: 4px;
-  font-size: 22px;
-}
+@media (max-height: 500px) {
+  .instructions-content {
+    padding: 12px 20px;
+  }
 
-.back-link {
-  color: #7fffd4;
-  font-family: 'Luckiest Guy', sans-serif;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.back-link:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 600px) {
-  .legal-content {
-    margin: 16px;
-    padding: 20px;
+  .instructions-content h2 {
+    margin-bottom: 8px;
   }
 }
 
