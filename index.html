@@ -14,7 +14,7 @@
   <div class="game-container">
     <canvas id="canvas" width="1280" height="720"></canvas>
     <button id="muteButton" class="mute-button d-none" onclick="toggleMute()">
-      <img id="muteIcon" src="img/6.Botones/Sound/sound-on.svg" alt="Sound on or off">
+      <img class="mute-icon" src="img/6.Botones/Sound/sound-on.svg" alt="Sound on or off">
     </button>
 
     <!-- touch buttons, only on phones and tablets -->
@@ -46,6 +46,9 @@
 
   <!-- start screen -->
   <section id="startScreen" class="start-screen">
+    <button class="mute-button" onclick="toggleMute()">
+      <img class="mute-icon" src="img/6.Botones/Sound/sound-on.svg" alt="Sound on or off">
+    </button>
     <h2 class="start-title">Sharkie</h2>
     <p class="start-story">Swim through the deep sea, collect coins and poison bottles and defeat the whale.</p>
     <p id="loadingText" class="loading-text">Loading 0 %</p>

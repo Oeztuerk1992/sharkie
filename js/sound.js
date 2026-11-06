@@ -59,13 +59,24 @@ function toggleMute() {
   isMuted = !isMuted;
   localStorage.setItem('sharkieMuted', isMuted);
   updateMuteButton();
-  document.getElementById('muteButton').blur();
+  document.activeElement.blur();
   if (isMuted) {
     backgroundMusic.pause();
     stopSnoring();
-  } else {
+  } else if (isGameRunning()) {
     backgroundMusic.play();
   }
+}
+
+
+/**
+ * Checks if a game is running. On the start screen and the end screen the music should not start.
+ * @returns {boolean} True if the start screen and the end screen are both hidden.
+ */
+function isGameRunning() {
+  let startScreen = document.getElementById('startScreen');
+  let endScreen = document.getElementById('endScreen');
+  return startScreen.classList.contains('d-none') && endScreen.classList.contains('d-none');
 }
 
 
@@ -102,14 +113,16 @@ function stopSnoring() {
 
 
 /**
- * Shows the crossed out speaker when the sound is muted.
+ * Shows the crossed out speaker on both mute buttons (start screen and game) when the sound is muted.
  * @returns {void}
  */
 function updateMuteButton() {
-  let muteIcon = document.getElementById('muteIcon');
+  let iconPath = 'img/6.Botones/Sound/sound-on.svg';
   if (isMuted) {
-    muteIcon.src = 'img/6.Botones/Sound/sound-off.svg';
-  } else {
-    muteIcon.src = 'img/6.Botones/Sound/sound-on.svg';
+    iconPath = 'img/6.Botones/Sound/sound-off.svg';
+  }
+  let muteIcons = document.querySelectorAll('.mute-icon');
+  for (let iconIndex = 0; iconIndex < muteIcons.length; iconIndex++) {
+    muteIcons[iconIndex].src = iconPath;
   }
 }

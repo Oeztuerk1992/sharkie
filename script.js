@@ -91,8 +91,8 @@ function startGame() {
  */
 function stopGame() {
   let highestIntervalId = setInterval(() => {}, 1000);
-  for (let i = 1; i <= highestIntervalId; i++) {
-    clearInterval(i);
+  for (let intervalId = 1; intervalId <= highestIntervalId; intervalId++) {
+    clearInterval(intervalId);
   }
   cancelAnimationFrame(world.animationFrameId);
   stopSnoring();
