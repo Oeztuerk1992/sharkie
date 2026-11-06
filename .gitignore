@@ -1,5 +1,7 @@
 .DS_Store
-*.ai
-*.aep
-*.zip
 .vscode/
+*.zip
+
+# design files from the asset pack, not needed for the game
+img/0. Editables/
+img/3. Background/Fondo - correc*
