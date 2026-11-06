@@ -324,6 +324,10 @@ canvas {
   margin: 0 0 12px 0;
 }
 
+.legal-columns a {
+  color: #fbe51e;
+}
+
 @media (max-height: 500px) {
   .instructions-content {
     padding: 12px 20px;
