@@ -123,25 +123,24 @@ class Character extends MovableObject {
     this.loadImages(this.imagesLongIdle);
     this.loadImages(this.imagesPoisonAttack);
     this.loadImages(this.imagesFinSlap);
-    this.applyGravity();
     this.animate();
   }
 
 
   /**
-   * Starts moving and animating the character.
+   * Starts the animations of the character. The movement is done by the world in updateCharacter().
    * The attack animation has its own, faster interval, so attacks feel quick.
    * @returns {void}
    */
   animate() {
-    setInterval(() => this.updateCharacter(), 1000 / 60);
     setInterval(() => this.animateCharacter(), 150);
     setInterval(() => this.animateAttack(), 60);
   }
 
 
   /**
-   * Reads the keys and moves the character, as long as he is alive. The camera always follows him.
+   * Reads the keys and moves the character one step, as long as he is alive. The camera always follows him.
+   * The world calls this 60 times per second.
    * @returns {void}
    */
   updateCharacter() {

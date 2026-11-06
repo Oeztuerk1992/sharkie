@@ -31,13 +31,10 @@ class JellyFish extends MovableObject {
 
 
   /**
-   * Lets the jelly fish swim all the time.
+   * Starts the image animation. The world moves the jelly fish with move().
    * @returns {void}
    */
   animate() {
-    setInterval(() => {
-      this.swim();
-    }, 1000 / 60);
     setInterval(() => {
       this.animateJellyFish();
     }, 200);
@@ -45,10 +42,10 @@ class JellyFish extends MovableObject {
 
 
   /**
-   * Swims one step up or down and checks if it has to turn.
+   * Swims one step up or down. The world calls this 60 times per second.
    * @returns {void}
    */
-  swim() {
+  move() {
     if (this.isDead()) {
       this.y -= 3;
       return;

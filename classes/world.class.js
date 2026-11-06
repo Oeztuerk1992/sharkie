@@ -12,6 +12,7 @@ class World {
   ctx;
   keyboard;
   cameraX = 0;
+  lastUpdateTime = 0;
   showFrames = false;
 
 
@@ -25,26 +26,59 @@ class World {
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.setWorld();
-    this.draw();
-    this.checkCollisions();
+    this.lastUpdateTime = performance.now();
+    this.draw(this.lastUpdateTime);
   }
 
 
   /**
-   * Checks 60 times per second if the character touches an enemy, a coin or a poison bottle,
-   * and if a bubble or the fin hits an enemy. So even fast jumps cannot fly through a coin.
+   * Moves the game forward exactly 60 steps per second, no matter if the screen shows 60, 120 or 144 pictures per second.
+   * On a fast screen some pictures are drawn without a step. After a long break (hidden tab) the game does not jump forward.
+   * @param {number} time - The time in milliseconds from requestAnimationFrame.
+   * @returns {void}
+   */
+  updateGame(time) {
+    let stepTime = 1000 / 60;
+    if (time - this.lastUpdateTime > 250) {
+      this.lastUpdateTime = time - stepTime;
+    }
+    while (time - this.lastUpdateTime >= stepTime - 1) {
+      this.moveObjects();
+      this.checkCollisions();
+      this.lastUpdateTime += stepTime;
+    }
+  }
+
+
+  /**
+   * Moves the character, all enemies and all bubbles one step.
+   * @returns {void}
+   */
+  moveObjects() {
+    this.character.updateCharacter();
+    this.character.applyGravity();
+    this.level.enemies.forEach(enemy => {
+      enemy.move();
+    });
+    this.throwableObjects.forEach(bubble => {
+      bubble.fly();
+    });
+  }
+
+
+  /**
+   * Checks if the character touches an enemy, a coin or a poison bottle,
+   * and if a bubble or the fin hits an enemy. It runs after every step, so even fast jumps cannot fly through a coin.
    * @returns {void}
    */
   checkCollisions() {
-    setInterval(() => {
-      this.checkEnemyCollisions();
-      this.collectCoins();
-      this.collectPoisonBottles();
-      this.checkBubbleHits();
-      this.checkFinSlap();
-      this.removeFarBubbles();
-      this.checkGameOver();
-    }, 1000 / 60);
+    this.checkEnemyCollisions();
+    this.collectCoins();
+    this.collectPoisonBottles();
+    this.checkBubbleHits();
+    this.checkFinSlap();
+    this.removeFarBubbles();
+    this.checkGameOver();
   }
 
 
@@ -105,18 +139,20 @@ class World {
 
 
   /**
-   * Draws the whole game again and again.
+   * Moves the game forward and draws it again and again.
+   * @param {number} time - The time in milliseconds from requestAnimationFrame.
    * @returns {void}
    */
-  draw() {
+  draw(time) {
+    this.updateGame(time);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.cameraX, 0);
     this.drawLevelObjects();
     this.ctx.translate(-this.cameraX, 0);
     this.drawStatusBars();
     let self = this;
-    this.animationFrameId = requestAnimationFrame(function() {
-      self.draw();
+    this.animationFrameId = requestAnimationFrame(function(time) {
+      self.draw(time);
     });
   }
 
@@ -284,12 +320,11 @@ class World {
 
 
   /**
-   * Stops a bubble and removes it from the world.
+   * Removes a bubble from the world.
    * @param {number} bubbleIndex - The position of the bubble in the list.
    * @returns {void}
    */
   removeBubble(bubbleIndex) {
-    this.throwableObjects[bubbleIndex].stop();
     this.throwableObjects.splice(bubbleIndex, 1);
   }
 

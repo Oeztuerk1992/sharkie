@@ -56,11 +56,10 @@ class PufferFish extends MovableObject {
 
 
   /**
-   * Starts swimming, the image animation and the inflate cycle.
+   * Starts the image animation and the inflate cycle. The world moves the puffer fish with move().
    * @returns {void}
    */
   animate() {
-    setInterval(() => this.swim(), 1000 / 60);
     setInterval(() => {
       if (!this.isDead()) {
         this.animateImages();
@@ -71,10 +70,10 @@ class PufferFish extends MovableObject {
 
 
   /**
-   * Swims one step in the current direction and checks if it has to turn.
+   * Swims one step in the current direction and checks if it has to turn. The world calls this 60 times per second.
    * @returns {void}
    */
-  swim() {
+  move() {
     if (this.isDead()) {
       this.floatUp();
       return;

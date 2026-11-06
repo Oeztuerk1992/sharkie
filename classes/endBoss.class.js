@@ -77,11 +77,10 @@ class EndBoss extends MovableObject {
 
 
   /**
-   * Starts the animation of the end boss.
+   * Starts the animation of the end boss. The world moves him with move().
    * @returns {void}
    */
   animate() {
-    setInterval(() => this.moveBoss(), 1000 / 60);
     setInterval(() => this.animateBoss(), 150);
   }
 
@@ -164,10 +163,10 @@ class EndBoss extends MovableObject {
 
 
   /**
-   * Swims towards Sharkie after the intro and starts an attack when he is close.
+   * Swims towards Sharkie after the intro and starts an attack when he is close. The world calls this 60 times per second.
    * @returns {void}
    */
-  moveBoss() {
+  move() {
     if (!this.isIntroOver() || this.isDead()) {
       return;
     }

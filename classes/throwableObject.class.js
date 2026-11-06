@@ -4,7 +4,6 @@ class ThrowableObject extends MovableObject {
   speed = 8;
   startX;
   isPoisoned;
-  moveInterval;
 
 
   /**
@@ -24,23 +23,20 @@ class ThrowableObject extends MovableObject {
     this.startX = x;
     this.otherDirection = otherDirection;
     this.isPoisoned = isPoisoned;
-    this.fly();
   }
 
 
   /**
-   * Moves the bubble forward and a little bit up.
+   * Moves the bubble one step forward and a little bit up. The world calls this 60 times per second.
    * @returns {void}
    */
   fly() {
-    this.moveInterval = setInterval(() => {
-      if (this.otherDirection) {
-        this.moveLeft();
-      } else {
-        this.moveRight();
-      }
-      this.y -= 0.5;
-    }, 1000 / 60);
+    if (this.otherDirection) {
+      this.moveLeft();
+    } else {
+      this.moveRight();
+    }
+    this.y -= 0.5;
   }
 
 
@@ -50,14 +46,5 @@ class ThrowableObject extends MovableObject {
    */
   isFarAway() {
     return Math.abs(this.x - this.startX) > 700;
-  }
-
-
-  /**
-   * Stops the bubble from moving.
-   * @returns {void}
-   */
-  stop() {
-    clearInterval(this.moveInterval);
   }
 }

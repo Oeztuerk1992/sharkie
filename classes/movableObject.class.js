@@ -61,20 +61,18 @@ class MovableObject extends DrawableObject {
 
 
   /**
-   * Pulls the object down all the time, like gravity.
+   * Pulls the object down one step, like gravity. The world calls this 60 times per second.
    * @returns {void}
    */
   applyGravity() {
-    setInterval(() => {
-      if (this.isAboveGround() || this.speedY > 0) {
-        this.y -= this.speedY;
-        this.speedY -= this.acceleration;
-        this.limitFallSpeed();
-      } else {
-        this.speedY = 0;
-        this.y = 720 - this.height;
-      }
-    }, 1000 / 60);
+    if (this.isAboveGround() || this.speedY > 0) {
+      this.y -= this.speedY;
+      this.speedY -= this.acceleration;
+      this.limitFallSpeed();
+    } else {
+      this.speedY = 0;
+      this.y = 720 - this.height;
+    }
   }
 
 
