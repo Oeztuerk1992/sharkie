@@ -24,7 +24,7 @@ The whale gets a little damage from normal bubbles and a lot from poison bubbles
 
 ## Start the game
 
-Open `index.html` with Live Server.
+Open `index.html` with Live Server, or play it here: [sinan-oeztuerk.developerakademie.net/sharkie](https://sinan-oeztuerk.developerakademie.net/sharkie/index.html)
 
 | Start screen | Whale |
 |---|---|
