@@ -130,15 +130,15 @@ class EndBoss extends MovableObject {
 
 
   /**
-   * A normal bubble takes away 10 energy, a poison bubble 25. So the end boss can always be beaten.
+   * A normal bubble takes away 10 energy, a poison bubble 20. Every bubble counts, also while he is still hurt.
    * @param {ThrowableObject} bubble - The bubble that hit the end boss.
    * @returns {void}
    */
   hitByBubble(bubble) {
     if (bubble.isPoisoned) {
-      this.hit(25);
+      this.loseEnergy(20);
     } else {
-      this.hit(10);
+      this.loseEnergy(10);
     }
   }
 

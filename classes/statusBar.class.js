@@ -69,19 +69,19 @@ class StatusBar extends DrawableObject {
 
 
   /**
-   * Finds the image that fits the current percentage.
+   * Finds the image that fits the current percentage. Every image stands for 20 percent, and the bar is only empty at 0.
    * @returns {number} The index of the image in the images list.
    */
   getImageIndex() {
-    if (this.percentage == 100) {
+    if (this.percentage > 80) {
       return 5;
-    } else if (this.percentage > 80) {
-      return 4;
     } else if (this.percentage > 60) {
-      return 3;
+      return 4;
     } else if (this.percentage > 40) {
-      return 2;
+      return 3;
     } else if (this.percentage > 20) {
+      return 2;
+    } else if (this.percentage > 0) {
       return 1;
     } else {
       return 0;
